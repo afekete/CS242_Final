@@ -1,17 +1,15 @@
 CS242_Final
 ===========
-Description of project:
-Initially user types in hashtag to search for
-Images with that tag are shown in grid and user selects one
-Photo mosaic of that image is created using other images with that tag
-each mosaic image 16x16 px
+Description of project:  
+Initially user types in hashtag to search for images with that tag are shown in grid and user selects one.  
+Photo mosaic of that image is created using other images with that tageach mosaic image 16x16 px.  
 
-Timeline:
-Week 1: Get images by tag, basic frontend, basic server
-  Alec: Set up nodejs server
-  Rob: Basic frontend
-  Kavya:get images by tag
-Week 2: Calculate average color of subpicture, find picture with similar average, figure out how to display mosaic on frontend (using canvas?)
+Timeline:  
+Week 1: Get images by tag, basic frontend, basic server  
+  Alec: Set up nodejs server  
+  Rob: Basic frontend 
+  Kavya:get images by tag  
+Week 2: Calculate average color of subpicture, find picture with similar average, figure out how to display mosaic on frontend (using canvas?)  
   Alec: find picture given average color
   Rob: displaying mosaic on frontend
   Kavya: find the average color given picture 
