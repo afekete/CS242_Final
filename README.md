@@ -4,7 +4,7 @@ Description of project:
 Initially user types in hashtag to search for images with that tag are shown in grid and user selects one.  
 Photo mosaic of that image is created using other images with that tageach mosaic image 16x16 px.  
 
-Timeline
+Timeline:
 
 Week 1: Get images by tag, basic frontend, basic server  
 * Alec: Set up nodejs server  
