@@ -8,6 +8,7 @@ var bodyParser = require('body-parser'); //Node.js body parsing middleware.
 // Store the routes in vars to be used by express
 var index = require('./routes/index');
 var db = require('./routes/database');
+var main = require('./routes/main');
 
 // Create the express web app
 var app = express();
@@ -26,6 +27,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', [index, db]);
+app.use('/main',[main, db]);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
