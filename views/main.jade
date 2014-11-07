@@ -19,8 +19,8 @@ head
    //
       Just for debugging purposes. Don't actually copy these 2 lines!
    //if lt IE 9
-     script(src='../../assets/js/ie8-responsive-file-warning.js')
-   script(src='/js/ie-emulation-modes-warning.js')
+      script(src='../../assets/js/ie8-responsive-file-warning.js')
+      script(src='/js/ie-emulation-modes-warning.js')
 
 body
    .site-wrapper
@@ -41,12 +41,12 @@ body
                      input.form-control(type='text', placeholder='Enter Tag')
                   button.btn.btn-default(type='submit') Submit
 
-
-            ul.g
-            - for (var x = 0; x < 20; x++)
-               li
-                  a(href='#')
-                     img(src='http://bradfrost.github.com/this-is-responsive/patterns/images/fpo_square.png', alt='Product Name')
+            .pattern#pattern
+               ul.g
+                  - for (var x = 0; x < 20; x++)
+                     li
+                        a(href='#')
+                           img(src='http://bradfrost.github.com/this-is-responsive/patterns/images/fpo_square.png', alt='Product Name')
 
             .mastfoot
                .inner
@@ -63,6 +63,4 @@ body
       Placed at the end of the document so the pages load faster
    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
    script(src='/js/bootstrap.min.js')
-   //
-      IE10 viewport hack for Surface/desktop Windows 8 bug
-   script(src='/js/ie10-viewport-bug-workaround.js')
+
