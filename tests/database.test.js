@@ -2,13 +2,13 @@
  * Created by Alec on 11/5/2014.
  * Source: http://webapplog.com/express-js-4-node-js-and-mongodb-rest-api-tutorial/
  */
-var superagent = require('superagent')
-var expect = require('expect.js')
+var superagent = require('superagent') //a small progressive client-side HTTP request library
+var expect = require('expect.js') //Minimalistic BDD assertion toolkit based on should.js
 
 describe('express rest api server', function(){
     var id
 
-    it('post object', function(done){
+    it('should post object', function(done){
         superagent.post('http://localhost:3000/db/test')
             .send({ name: 'John'
                 , email: 'john@rpjs.co'
@@ -23,7 +23,7 @@ describe('express rest api server', function(){
             })
     })
 
-    it('retrieves an object', function(done){
+    it('should retrieve an object', function(done){
         superagent.get('http://localhost:3000/db/test/'+id)
             .end(function(e, res){
                 // console.log(res.body)
@@ -35,7 +35,7 @@ describe('express rest api server', function(){
             })
     })
 
-    it('retrieves a collection', function(done){
+    it('should retrieve a collection', function(done){
         superagent.get('http://localhost:3000/db/test')
             .end(function(e, res){
                 // console.log(res.body)
@@ -46,7 +46,7 @@ describe('express rest api server', function(){
             })
     })
 
-    it('updates an object', function(done){
+    it('should update an object', function(done){
         superagent.put('http://localhost:3000/db/test/'+id)
             .send({name: 'Peter'
                 , email: 'peter@yahoo.com'})
@@ -58,7 +58,7 @@ describe('express rest api server', function(){
                 done()
             })
     })
-    it('checks an updated object', function(done){
+    it('should check an updated object', function(done){
         superagent.get('http://localhost:3000/db/test/'+id)
             .end(function(e, res){
                 // console.log(res.body)
@@ -71,7 +71,7 @@ describe('express rest api server', function(){
             })
     })
 
-    it('removes an object', function(done){
+    it('should remove an object', function(done){
         superagent.del('http://localhost:3000/db/test/'+id)
             .end(function(e, res){
                 // console.log(res.body)
