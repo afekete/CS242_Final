@@ -58,3 +58,7 @@
         clear: none;
     }
 }
+img, object, video {
+    max-width: 100%;
+    border: 0;
+}

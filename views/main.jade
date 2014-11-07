@@ -6,22 +6,13 @@ head
    meta(name='author', content='')
    link(rel='icon', href='favicon.ico')
    title Theme Template for Bootstrap
-   //
-      Bootstrap core CSS
+
    link(href='css/bootstrap.min.css', rel='stylesheet')
-   //
-      Bootstrap theme
+
    link(href='css/bootstrap-theme.min.css', rel='stylesheet')
-   //
-      Custom styles for this template
+
    link(href='stylesheets/cover.css', rel='stylesheet')
    link(href='stylesheets/pict_grid.css', rel='stylesheet')
-   link(href='stylesheets/styles.css', rel='stylesheet')
-   //
-      Just for debugging purposes. Don't actually copy these 2 lines!
-   //if lt IE 9
-      script(src='../../assets/js/ie8-responsive-file-warning.js')
-      script(src='/js/ie-emulation-modes-warning.js')
 
 body
    .site-wrapper
@@ -44,7 +35,7 @@ body
 
             .pattern#pattern
                ul.g
-                  - for (var x = 0; x < 20; x++)
+                  - for (var x = 0; x < 100; x++)
                      li
                         a(href='#')
                            img(src='http://bradfrost.github.com/this-is-responsive/patterns/images/fpo_square.png', alt='Product Name')
