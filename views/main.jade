@@ -15,6 +15,7 @@ head
    //
       Custom styles for this template
    link(href='stylesheets/cover.css', rel='stylesheet')
+   link(href='stylesheets/pict_grid.css', rel='stylesheet')
    //
       Just for debugging purposes. Don't actually copy these 2 lines!
    //if lt IE 9
@@ -26,23 +27,31 @@ body
       .site-wrapper-inner
          .cover-container
             .masthead.clearfix
-               .inner
-                  h3.masthead-brand Project
-                  ul.nav.masthead-nav
-                     li
-                        a(href='/') Home
-                     li.active
-                        a(href='/main') Main
+            .inner
+               h3.masthead-brand Project
+               ul.nav.masthead-nav
+                  li
+                     a(href='/') Home
+                  li.active
+                     a(href='/main') Main
             .page-header
                form(role='form')
                   .form-group
                      label(for='GivenTag') Tag
-                     input#exampleInputEmail1.form-control(type='text', placeholder='Enter Tag')
+                     input.form-control(type='text', placeholder='Enter Tag')
                   button.btn.btn-default(type='submit') Submit
-               .mastfoot
-                  .inner
-                     P
-                        a(href='/contact') Contact
+
+
+            ul.g
+            - for (var x = 0; x < 20; x++)
+               li
+                  a(href='X')
+                     img(src='http://bradfrost.github.com/this-is-responsive/patterns/images/fpo_square.png', alt='Product Name')
+
+            .mastfoot
+               .inner
+                  P
+                     a(href='/contact') Contact
 
 
 
