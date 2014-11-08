@@ -35,10 +35,12 @@ body
 
             .pattern#pattern
                ul.g
-                  - for (var x = 0; x < 20; x++)
-                     li
-                        a(href='#')
-                           img(src='http://bradfrost.github.com/this-is-responsive/patterns/images/fpo_square.png', alt='Product Name')
+                  //
+                     - for (var x = 0; x < 20; x++)
+                        li
+                           a(href='#')
+                              img(src='http://bradfrost.github.com/this-is-responsive/patterns/images/fpo_square.png', alt='Product Name')
+            .instagram
 
             .mastfoot
                .inner
@@ -55,4 +57,6 @@ body
       Placed at the end of the document so the pages load faster
    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
    script(src='/js/bootstrap.min.js')
+   script(src='//cdnjs.cloudflare.com/ajax/libs/jquery-instagram/0.3.1/instagram.min.js')
+   script(src='/js/instagram.js')
 
