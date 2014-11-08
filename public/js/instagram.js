@@ -2,6 +2,10 @@
  * Created by Alec on 11/8/2014.
  */
 $(document).ready(function() {
+    getAndAddPictures('latte', 100)
+});
+
+function getAndAddPictures(hash, count) {
     $('.pattern').on('willLoadInstagram', function(event, options) {
         console.log(options);
     });
@@ -14,8 +18,8 @@ $(document).ready(function() {
         })
     });
     $('.pattern').instagram({
-        hash: 'latte',
+        hash: hash,
         clientId: '93cfcf70cba44318a06a07ea8e3b6268',
-        count: 100
+        count: count
     });
-});
+}
