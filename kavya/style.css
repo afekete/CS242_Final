@@ -1,0 +1,68 @@
+body {
+    background-color: #222;
+    color: #fff;
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+}
+
+#timeline {
+    width: 60%;
+    margin: 0 auto;
+}
+
+.timeline-unit {
+    padding: 30px;
+}
+
+.photo {
+    display: inline-block;
+    width: 70%;
+}
+
+.user-thumbnail {
+    display: block;
+}
+
+.user-thumbnail img {
+    width: 50%;
+    margin-bottom: 20px;
+    border-radius: 3px;
+}
+
+.username {
+    text-transform: uppercase;
+    font-size: 16px;
+    display: block;
+}
+
+.hashtag {
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 300;
+    display: block;
+}
+
+.metrics {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.photo img {
+    box-shadow: 0 1px 12px rgba(0, 0, 0, 0.6);
+    border-radius: 3px;
+}
+
+.photo img:after, .user-thumbnail img:after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.user {
+    display: inline-block;
+    vertical-align: top;
+    width: 20%;
+}
