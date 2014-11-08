@@ -1,6 +1,5 @@
 
 var global_next_url = ""
-var counter = 0
 $(document).ready(function(){
     $( "#tag_input" ).submit(function( event ) {
         event.preventDefault();
@@ -39,9 +38,10 @@ function getAndAddPictures(tag, count) {
                     '<li><a href="#"><img src="' + picture.images.standard_resolution.url + '"></a></li>'
                 )
             })
+
             global_next_url = data.pagination.next_url
-            counter++
-            console.log(counter)
+            addNextPicture(global_next_url)
+
         }
     });
 }
@@ -60,8 +60,6 @@ function addNextPicture(next_url){
                 )
             })
             global_next_url = data.pagination.next_url
-            counter++
-            console.log(counter)
         }
     });
 }
