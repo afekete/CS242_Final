@@ -37,6 +37,8 @@ function getAndAddPictures(tag, count) {
                 $('#pattern ul').append(
                     '<li><a href="#"><img src="' + picture.images.standard_resolution.url + '"></a></li>'
                 )
+                getCanvasFromImage(picture.images.standard_resolution.url)
+
             })
 
             global_next_url = data.pagination.next_url
@@ -62,6 +64,42 @@ function addNextPicture(next_url){
             global_next_url = data.pagination.next_url
         }
     });
+}
+
+function getCanvasFromImage(image_url){
+
+    $.getImageData({
+        url: image_url,
+        success: analyzeAndDraw,
+        error: function(xhr, text_status){
+
+        }
+    });
+}
+
+function analyzeAndDraw(image){
+    var can = document.createElement('canvas');
+    var ctx = can.getContext('2d');
+
+    $(can).attr('width', image.width);
+    $(can).attr('height', image.height);
+
+    ctx.drawImage(image, 0, 0, image.width, image.height)
+
+    var image_data = ctx.getImageData(0,0,image.width, image.height);
+    var image_data_array = image_data.data;
+    var image_data_array_length = image_data_array.length;
+
+    var a=[0,0,0];
+
+    for (var i = 0; i < image_data_array_length; i+=4){
+        a[0] = a[0] + image_data_array[i]
+        a[1] = a[1] + image_data_array[i+1];
+        a[2] = a[2] + image_data_array[i+2];
+    }
+
+    a[0] = Math.round(a[0]/=(image_data_array_length)/3));
+    //a[1] = Math.round(a[1]/=(image_data_a)
 }
 
 
