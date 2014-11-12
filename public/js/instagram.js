@@ -37,7 +37,7 @@ function getAndAddPictures(tag, count) {
                 $('#pattern ul').append(
                     '<li><a href="/mosaic"><img src="' + picture.images.standard_resolution.url + '"></a></li>'
                 )
-                getCanvasFromImage(picture.images.standard_resolution.url)
+                //getCanvasFromImage(picture.images.standard_resolution.url)
 
             })
 
