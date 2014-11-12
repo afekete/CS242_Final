@@ -37,8 +37,7 @@ function getAndAddPictures(tag, count) {
                 $('#pattern ul').append(
                     '<li><a href="/mosaic"><img src="' + picture.images.standard_resolution.url + '"></a></li>'
                 )
-
-
+                getCanvasFromImage(picture.images.standard_resolution.url)
             })
 
             global_next_url = data.pagination.next_url
@@ -60,7 +59,6 @@ function addNextPicture(next_url){
                 $('#pattern ul').append(
                     '<li><a href="#"><img src="' + picture.images.standard_resolution.url + '"></a></li>'
                 )
-                getCanvasFromImage(picture.images.standard_resolution.url)
             })
             global_next_url = data.pagination.next_url
         }
@@ -93,16 +91,6 @@ function analyzeAndDraw(image){
 
     var averageColors = []
     averageColors = getAvgColors(image_data_array, image.width, image.height, 40, 40);
-    //var a=[0,0,0];
-
-    /*for (var i = 0; i < image_data_array_length; i+=4){
-        a[0] = a[0] + image_data_array[i]
-        a[1] = a[1] + image_data_array[i+1];
-        a[2] = a[2] + image_data_array[i+2];
-    }*/
-
-    //a[0] = Math.round(a[0]/=(image_data_array_length)/3);
-    //a[1] = Math.round(a[1]/=(image_data_a)
 }
 
 function getAvgColors(image, totWidth, totHeight, subWidth, subHeight) {
@@ -128,7 +116,7 @@ function getAvgColors(image, totWidth, totHeight, subWidth, subHeight) {
             avgColors.append([avgR, avgG, avgB]);
         }
     }
-    return avgColors;
+    return averageColors;
 }
 
 function getIndex(x, y, w, h) {
