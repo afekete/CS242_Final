@@ -14,7 +14,13 @@ $(document).ready(function(){
             }
         }
     });
-
+    $(".g").on('click', 'a', function(event) {
+        event.preventDefault();
+        console.log('click')
+        var url = $(this).children("img").attr("src");
+        getCanvasFromImage(url);
+        return false
+    })
 });
 
 function getAndAddPictures(tag, count) {
@@ -60,7 +66,7 @@ function addNextPicture(next_url){
         success: function (data) {
             data.data.forEach(function (picture, index) {
                 $('#pattern ul').append(
-                    '<li><a href="#"><img src="' + picture.images.standard_resolution.url + '"></a></li>'
+                    '<li><a href="/mosaic"><img src="' + picture.images.standard_resolution.url + '"></a></li>'
                 )
             })
             global_next_url = data.pagination.next_url
@@ -94,7 +100,12 @@ function analyzeAndDraw(image){
     var image_data_array_length = image_data_array.length;
 
     var averageColors = []
-    averageColors = getAvgColors(image_data_array, image.width, image.height, 40, 40);
+    averageColors = getAvgColors(image_data_array, image.width, image.height, image.width, image.height);
+    var red = averageColors[0][0];
+    var green = averageColors[0][1];
+    var blue = averageColors[0][2];
+    console.log(averageColors)
+    $('#averageColorViewer').css("background-color", "rgb("+red+","+green+","+blue+")")
 }
 
 function getAvgColors(image, totWidth, totHeight, subWidth, subHeight) {
@@ -117,7 +128,7 @@ function getAvgColors(image, totWidth, totHeight, subWidth, subHeight) {
             avgR /= pixelCt;
             avgG /= pixelCt;
             avgB /= pixelCt;
-            averageColors.push([avgR, avgG, avgB]);
+            averageColors.push([Math.floor(avgR), Math.floor(avgG), Math.floor(avgB)]);
         }
     }
     return averageColors;
