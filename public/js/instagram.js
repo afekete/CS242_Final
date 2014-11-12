@@ -35,7 +35,7 @@ function getAndAddPictures(tag, count) {
             $('#pattern ul').empty()
             data.data.forEach(function (picture, index) {
                 $('#pattern ul').append(
-                    '<li><a href="#"><img src="' + picture.images.standard_resolution.url + '"></a></li>'
+                    '<li><a href="/mosaic"><img src="' + picture.images.standard_resolution.url + '"></a></li>'
                 )
                 getCanvasFromImage(picture.images.standard_resolution.url)
 
@@ -98,7 +98,7 @@ function analyzeAndDraw(image){
         a[2] = a[2] + image_data_array[i+2];
     }
 
-    a[0] = Math.round(a[0]/=(image_data_array_length)/3));
+    a[0] = Math.round(a[0]/=(image_data_array_length)/3);
     //a[1] = Math.round(a[1]/=(image_data_a)
 }
 

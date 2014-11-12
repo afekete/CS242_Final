@@ -1,0 +1,13 @@
+canvas {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    float: left;
+}
+div#canvases{
+    width: 640px;
+    height: 640px;
+    margin: auto;
+}
