@@ -95,17 +95,6 @@ function analyzeAndDraw(image){
 
     var averageColors = []
     averageColors = getAvgColors(image_data_array, image.width, image.height, 40, 40);
-    console.log(averageColors);
-    //var a=[0,0,0];
-
-    /*for (var i = 0; i < image_data_array_length; i+=4){
-        a[0] = a[0] + image_data_array[i]
-        a[1] = a[1] + image_data_array[i+1];
-        a[2] = a[2] + image_data_array[i+2];
-    }*/
-
-    //a[0] = Math.round(a[0]/=(image_data_array_length)/3);
-    //a[1] = Math.round(a[1]/=(image_data_a)
 }
 
 function getAvgColors(image, totWidth, totHeight, subWidth, subHeight) {
@@ -115,7 +104,7 @@ function getAvgColors(image, totWidth, totHeight, subWidth, subHeight) {
             var avgR = 0;
             var avgG = 0;
             var avgB = 0;
-            //console.log(x);
+
             for(x_sub = x; x_sub < x+subWidth; x_sub++) {
                 for(y_sub = y; y_sub < y+subHeight; y_sub++) {
                     var currIndex = getIndex(x_sub, y_sub, totWidth, totHeight);
