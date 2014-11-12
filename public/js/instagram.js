@@ -16,7 +16,6 @@ $(document).ready(function(){
     });
     $(".g").on('click', 'a', function(event) {
         event.preventDefault();
-        console.log('click')
         var url = $(this).children("img").attr("src");
         getCanvasFromImage(url);
         return false
@@ -75,13 +74,12 @@ function addNextPicture(next_url){
 }
 
 function getCanvasFromImage(image_url){
-    console.log(image_url);
     $.getImageData({
         url: image_url,
         server: 'http://maxnov.com/getimagedata/getImageData.php',
         success: analyzeAndDraw,
         error: function(xhr, text_status){
-            console.log("Mistakes were made "+text_status);
+            console.log("Mistakes were made: "+text_status);
         }
     });
 }
@@ -104,7 +102,6 @@ function analyzeAndDraw(image){
     var red = averageColors[0][0];
     var green = averageColors[0][1];
     var blue = averageColors[0][2];
-    console.log(averageColors)
     $('#averageColorViewer').css("background-color", "rgb("+red+","+green+","+blue+")")
 }
 
