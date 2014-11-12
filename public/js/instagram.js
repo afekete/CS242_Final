@@ -37,7 +37,7 @@ function getAndAddPictures(tag, count) {
                 $('#pattern ul').append(
                     '<li><a href="/mosaic"><img src="' + picture.images.standard_resolution.url + '"></a></li>'
                 )
-                //getCanvasFromImage(picture.images.standard_resolution.url)
+
 
             })
 
@@ -60,6 +60,7 @@ function addNextPicture(next_url){
                 $('#pattern ul').append(
                     '<li><a href="#"><img src="' + picture.images.standard_resolution.url + '"></a></li>'
                 )
+                getCanvasFromImage(picture.images.standard_resolution.url)
             })
             global_next_url = data.pagination.next_url
         }
@@ -90,17 +91,47 @@ function analyzeAndDraw(image){
     var image_data_array = image_data.data;
     var image_data_array_length = image_data_array.length;
 
-    var a=[0,0,0];
+    var averageColors = []
+    averageColors = getAvgColors(image_data_array, image.width, image.height, 40, 40);
+    //var a=[0,0,0];
 
-    for (var i = 0; i < image_data_array_length; i+=4){
+    /*for (var i = 0; i < image_data_array_length; i+=4){
         a[0] = a[0] + image_data_array[i]
         a[1] = a[1] + image_data_array[i+1];
         a[2] = a[2] + image_data_array[i+2];
-    }
+    }*/
 
-    a[0] = Math.round(a[0]/=(image_data_array_length)/3);
+    //a[0] = Math.round(a[0]/=(image_data_array_length)/3);
     //a[1] = Math.round(a[1]/=(image_data_a)
 }
 
+function getAvgColors(image, totWidth, totHeight, subWidth, subHeight) {
+    var averageColors = [];
+    for(x = 0; x < totWidth; x+subWidth) {
+        for(y = 0; y < totHeight; y+subHeight) {
+            var avgR = 0;
+            var avgG = 0;
+            var avgB = 0;
 
+            for(x_sub = x; x_sub < x+subWidth; x_sub++) {
+                for(y_sub = y; y_sub < y+subHeight; y_sub++) {
+                    var currIndex = getIndex(x_sub, y_sub, totWidth, totHeight);
+                    avgR += image[currIndex];
+                    avgG += image[currIndex+1];
+                    avgB += image[currIndex+2];
+                }
+            }
+            var pixelCt = subWidth*subHeight;
+            avgR /= pixelCt;
+            avgG /= pixelCt;
+            avgB /= pixelCt;
+            avgColors.append([avgR, avgG, avgB]);
+        }
+    }
+    return avgColors;
+}
+
+function getIndex(x, y, w, h) {
+    return (y*w*4)+(x*4)
+}
 
