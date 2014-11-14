@@ -16,7 +16,7 @@ function iterate_canvas() {
             if(blue.length == 1) {blue = '0'.concat(blue)}
             var green = chosenColors[x + (y * 16)][2].toString(16)
             if(green.length == 1) {green = '0'.concat(green)}
-            console.log('#'+red+blue+green)
+            //console.log('#'+red+blue+green)
             ctx.fillStyle = '#'+red+blue+green
             ctx.fillRect(0, 0, 40, 40);
 

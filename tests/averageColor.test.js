@@ -1,15 +1,27 @@
 /**
- * Created by Alec on 11/11/2014.
+ * Created by Alec on 11/13/2014.
  */
-/**
- * Returns an array of average colors of the subimages of an image
- * @param image A 1d array of pixel color values laid out as RGBARGBA...
- * @param totWidth The image width
- * @param totHeight The image height
- * @param subWidth The width of the subsections
- * @param subHeight The height of the subsections
- * @returns {Array} The array of average colors
- */
+var expect = require('expect.js');
+
+describe("Get average color of subimages of image", function() {
+    var picture = [0,0,0,0,10,20,30,0,0,20,40,0,50,50,50,0];
+
+    it("should find the averages [0,0,0], [10,20,30], [0,20,40], [50,50,50]", function(done) {
+        var averages = getAvgColors(picture, 2, 2, 1, 1);
+        expect(averages[0]).to.eql([0,0,0]);
+        expect(averages[2]).to.eql([10,20,30]);
+        expect(averages[1]).to.eql([0,20,40]);
+        expect(averages[3]).to.eql([50,50,50]);
+        done()
+    });
+
+    it("should find the average [15,22,30]", function(done) {
+        var averages = getAvgColors(picture, 2, 2, 2, 2);
+        expect(averages[0]).to.eql([15,22,30]);
+        done()
+    })
+});
+
 function getAvgColors(image, totWidth, totHeight, subWidth, subHeight) {
     var averageColors = [];
     for(x = 0; x < totWidth; x+=subWidth) {
