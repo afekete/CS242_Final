@@ -70,6 +70,8 @@ function getAndAddPictures(tag, count) {
     });
 }
 
+//using pagination to add next picture because we need to load more images as the page ends
+//use another feature from api called pagination.next_url to get more images
 function addNextPicture(next_url){
 
     $.ajax({
@@ -88,6 +90,8 @@ function addNextPicture(next_url){
     });
 }
 
+//make a 'local' canvas out of the image using an api from maxnov.com
+//using this api we can create a temp canvas and manipulate aspects of the image
 function getCanvasFromImage(image_url, type){
     $.getImageData({
         url: image_url,
@@ -100,6 +104,9 @@ function getCanvasFromImage(image_url, type){
     });
 }
 
+//analyzeImage gets necessary data we need to analyze the image
+//analyzes average colors and calls averageColors function to compute average colors
+//local storage with some key/value items
 function analyzeImage(image, type){
     var can = document.createElement('canvas');
     var ctx = can.getContext('2d');
@@ -145,6 +152,10 @@ function analyzeImage(image, type){
     */
 }
 
+//computes average color of an image by section
+//section is currently 40x40 pixels and makes a list of average RBG values in that section and appends to list
+//returns the list to the above function
+
 function getAvgColors(image, totWidth, totHeight, subWidth, subHeight) {
     var averageColors = [];
     for(x = 0; x < totWidth; x+=subWidth) {
@@ -171,10 +182,12 @@ function getAvgColors(image, totWidth, totHeight, subWidth, subHeight) {
     return averageColors;
 }
 
+//gets index for an area - iterate 4 times because RBG and alpha for each pixel
 function getIndex(x, y, w, h) {
     return (y*w*4)+(x*4)
 }
 
+//loading icon stuff
 var opts = {
     lines: 13, // The number of lines to draw
     length: 20, // The length of each line
