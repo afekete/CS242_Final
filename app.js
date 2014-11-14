@@ -11,6 +11,7 @@ var db = require('./routes/database');
 var main = require('./routes/main');
 var contact = require('./routes/contact');
 var mosaic = require('./routes/mosaic');
+var user = require('./routes/user');
 
 // Create the express web app
 var app = express();
@@ -28,7 +29,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', [index, main, contact, mosaic, db]);
+app.use('/', [index, main, contact, mosaic, user, db]);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
