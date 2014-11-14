@@ -1,5 +1,9 @@
 
 var global_next_url = ""
+var set_chosen_pic_array = false
+var set_other_pics_array = false
+var current_url = null
+
 $(document).ready(function(){
     $( "#tag_input" ).submit(function( event ) {
         event.preventDefault();
@@ -17,6 +21,7 @@ $(document).ready(function(){
     $(".g").on('click', 'a', function(event) {
         event.preventDefault();
         var url = $(this).children("img").attr("src");
+        set_chosen_pic_array = true
         getCanvasFromImage(url);
         return false
     })
@@ -42,8 +47,9 @@ function getAndAddPictures(tag, count) {
                 $('#pattern ul').append(
                     '<li><a href="/mosaic"><img src="' + picture.images.standard_resolution.url + '"></a></li>'
                 )
-                if(index == 0) {
+                if(index <= 2) {
                     getCanvasFromImage(picture.images.standard_resolution.url)
+                    set_other_pics_array = true
                 }
 
             })
@@ -74,6 +80,7 @@ function addNextPicture(next_url){
 }
 
 function getCanvasFromImage(image_url){
+    current_url = image_url
     $.getImageData({
         url: image_url,
         server: 'http://maxnov.com/getimagedata/getImageData.php',
@@ -84,7 +91,7 @@ function getCanvasFromImage(image_url){
     });
 }
 
-function analyzeAndDraw(image){
+function analyzeImage(image){
     var can = document.createElement('canvas');
     var ctx = can.getContext('2d');
 
@@ -98,11 +105,27 @@ function analyzeAndDraw(image){
     var image_data_array_length = image_data_array.length;
 
     var averageColors = []
-    averageColors = getAvgColors(image_data_array, image.width, image.height, image.width, image.height);
+    if(set_chosen_pic_array)
+        averageColors = getAvgColors(image_data_array, image.width, image.height, 40, 40);
+    else if(set_other_pics_array) {
+        averageColors = getAvgColors(image_data_array, image.width, image.height, image.width, image.height);
+    }
+    else {
+        console.log("Type of picture not set")
+    }
     var red = averageColors[0][0];
     var green = averageColors[0][1];
     var blue = averageColors[0][2];
     $('#averageColorViewer').css("background-color", "rgb("+red+","+green+","+blue+")")
+
+    if(set_chosen_pic_array) {
+        localStorage.setItem("chosenPictureKey", averageColors)
+        set_chosen_pic_array = false
+    }
+    else if (set_other_pics_array) {
+        localStorage.setItem("otherPicturesKey", averageColors[0])
+        set_other_pics_array = false
+    }
 }
 
 function getAvgColors(image, totWidth, totHeight, subWidth, subHeight) {
