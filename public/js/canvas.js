@@ -3,8 +3,7 @@ function iterate_canvas() {
     for (x = 0; x < 16; x++) {
         for (y = 0; y < 16; y++) {
             var c = document.getElementById("main_canvas" + "_" + x + "_" + y);
-            //console.log(c)
-            var pic = getClosestPicture(chosenPictureKey[x+(y*16)], possiblePictures, error)
+            //var pic = getClosestPicture(chosenPictureKey[x+(y*16)], possiblePictures, error)
             var ctx = c.getContext("2d");
             var red = chosenColors[x + (y * 16)][0].toString(16)
             if(red.length == 1) {red = '0'.concat(red)}
@@ -20,6 +19,7 @@ function iterate_canvas() {
 }
 
 $(document).ready(function() {
+    /*
     for (var x =0;x < 16 ; x++) {
         for (var y =0;y < 16 ; y++) {
             var c = document.getElementById("main_canvas"+"_"+x+"_"+y);
@@ -28,5 +28,6 @@ $(document).ready(function() {
             ctx.fillRect(0, 0, 40, 40);
         }
     }
+    */
     iterate_canvas()
 })

@@ -1,11 +1,14 @@
 var global_next_url = ""
 
 $(document).ready(function(){
+    // When tag submitted, get text and fetch pictures
     $( "#tag_input" ).submit(function( event ) {
         event.preventDefault();
         var given_tag = $( "#tag_input .form-group .form-control" ).val()
         getAndAddPictures(given_tag, 100)
     });
+
+    // Load more pictures when user scrolls to bottom
     $(window).scroll(function(){
         if ($(window).scrollTop()==$(document).height() - $(window).height()){
             if(global_next_url != "")
@@ -14,6 +17,8 @@ $(document).ready(function(){
             }
         }
     });
+
+    // Do stuff with picture you click on
     $(".g").on('click', 'a', function(event) {
         event.preventDefault();
         var url = $(this).children("img").attr("src");
@@ -22,22 +27,27 @@ $(document).ready(function(){
     })
 });
 
+/**
+ * Gets pictures with submitted tag from instagram, displays them, and gets local copy of them
+ * @param tag The tag to get pictures for
+ * @param count How many pictures to get
+ */
 function getAndAddPictures(tag, count) {
     var access_token = "394307472.93cfcf7.cc10311c67174728a0baef44810d5c0c";
-    //user_id_kavya = 394307472
 
     var tag_endpoint = "https://api.instagram.com/v1/tags/" + tag + "/media/recent?count=" + count + "&access_token=" + access_token;
-    var popular_endpoint = "https://api.instagram.com/v1/media/popular?count=" + count + "access_token=" + access_token;
-    //var user_endpoint = "https://api.instagram.com/v1/users/" + user_id_kavya + "/media/recent?access_token=" + access_token;
 
+    // Instagram ajax call
     $.ajax({
-
         type: "GET",
         dataType: "jsonp",
         cache: false,
         url: tag_endpoint,
         success: function (data) {
+            // Remove previous images when switching tags
             $('#pattern ul').empty()
+
+            // Add each image and convert it to a local image
             data.data.forEach(function (picture, index) {
                 $('#pattern ul').append(
                     '<li><a href="/mosaic"><img src="' + picture.images.standard_resolution.url + '"></a></li>'
@@ -116,11 +126,14 @@ function analyzeImage(image){
 
     if(type = 'chosen') {
         localStorage.setItem("chosenPictureKey", JSON.stringify(averageColors))
-        set_chosen_pic_array = false
     }
     else if (type = 'other') {
-        localStorage.setItem("otherPicturesKey", JSON.stringify(averageColors[0]))
-        set_other_pics_array = false
+        var currOtherPics = []
+        if (localStorage.getItem("otherPicturesKey") !== null) {
+            currOtherPics = JSON.parse(localStorage.getItem("otherPicturesKey"))
+        }
+        currOtherPics.push([averageColors, image])
+        localStorage.setItem("otherPicturesKey", JSON.stringify(currOtherPics))
     }
 }
 
