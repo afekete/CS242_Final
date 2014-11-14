@@ -1,6 +1,5 @@
 var global_next_url = ""
 
-//document ready function for general purposes
 $(document).ready(function(){
     localStorage.removeItem('otherPicturesKey')
     localStorage.removeItem('chosenPictureKey')
@@ -60,6 +59,7 @@ function getAndAddPictures(tag, count) {
                 if(index <= 0) {
                     getCanvasFromImage(picture.images.standard_resolution.url, 'other')
                 }
+
             })
 
             global_next_url = data.pagination.next_url
@@ -69,7 +69,6 @@ function getAndAddPictures(tag, count) {
     });
 }
 
-//add next picture function - uses pagination to get next url to load more pictures. uses global variable
 function addNextPicture(next_url){
 
     $.ajax({
@@ -88,8 +87,6 @@ function addNextPicture(next_url){
     });
 }
 
-//creates a canvas from the image using an external api from maxnov.com
-//creating a canvas allows us to manipulate pixels on the image
 function getCanvasFromImage(image_url, type){
     $.getImageData({
         url: image_url,
@@ -102,9 +99,6 @@ function getCanvasFromImage(image_url, type){
     });
 }
 
-//analyze the image (called from getCanvasImage) and takes images and gets information from them
-//computes average color by calling averageColor method
-//local storage is also used with key/value pairs
 function analyzeImage(image, type){
     var can = document.createElement('canvas');
     var ctx = can.getContext('2d');
@@ -150,8 +144,6 @@ function analyzeImage(image, type){
     */
 }
 
-//computes average color by sections on image
-//takes into 40x40 sections and computes average color by iteration
 function getAvgColors(image, totWidth, totHeight, subWidth, subHeight) {
     var averageColors = [];
     for(x = 0; x < totWidth; x+=subWidth) {
@@ -175,16 +167,13 @@ function getAvgColors(image, totWidth, totHeight, subWidth, subHeight) {
             averageColors.push([Math.floor(avgR), Math.floor(avgG), Math.floor(avgB)]);
         }
     }
-    console.log(averageColors);
     return averageColors;
 }
 
-//gets index of an area - assume there are four elements: RBG and alpha value
 function getIndex(x, y, w, h) {
     return (y*w*4)+(x*4)
 }
 
-//for loading icon
 var opts = {
     lines: 13, // The number of lines to draw
     length: 20, // The length of each line

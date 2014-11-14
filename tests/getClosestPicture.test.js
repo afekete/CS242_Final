@@ -1,17 +1,28 @@
 /**
- * Created by Alec on 11/11/2014.
+ * Created by Alec on 11/13/2014.
  */
-/**
- * Finds the first picture close enough to the target colors from a list of picture's average colors
- * @param targetColors An array with the target color values [R,G,B]
- * @param possiblePictures An array of arrays of images and average color pairs to search through
- * @param error The allowed difference between a picture and the target
- * @returns {*} The local image file to be used
- */
+var expect = require('expect.js')
+
+describe("find picture with average closest to provided", function() {
+    var target1 = [0, 120, 200]
+    var target2 = [10, 10, 10]
+    var options = [["1", [5, 110, 210]], ["2", [100, 100, 100]], ["3", [15, 10, 5]], ["4", [0, 0, 0]]]
+
+    it("should pick option 1 for target 1", function(done) {
+        var chosen = getClosestPicture(target1, options, 10)
+        expect(chosen).to.eql("1")
+        done()
+    })
+    it("should pick option 3 for target 2", function (done) {
+        var chosen = getClosestPicture(target2, options, 10)
+        expect(chosen).to.eql("3")
+        done()
+    })
+})
+
 function getClosestPicture(targetColors, possiblePictures, error) {
     var currError = error
     var currPic = null
-    // When error is 256, any image should suffice
     while(currError < 256)
     {
         for (var i=0; i < possiblePictures.length; i++) {
@@ -23,10 +34,8 @@ function getClosestPicture(targetColors, possiblePictures, error) {
                 return currPic[0]
             }
         }
-        // Increment the allowed error and try again. Simple way to find closest image
         currError += 5
     }
     console.log("No picture found")
-    // As a fallback, return the last picture
     return currPic[0]
 }
