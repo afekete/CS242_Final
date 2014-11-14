@@ -1,3 +1,6 @@
+//
+   Created by Robert on 11/13/2014.
+
 head
    meta(charset='utf-8')
    meta(http-equiv='X-UA-Compatible', content='IE=edge')
@@ -6,37 +9,28 @@ head
    meta(name='author', content='')
    link(rel='icon', href='favicon.ico')
    title Instagram Mosaic
-
    link(href='css/bootstrap.min.css', rel='stylesheet')
-
    link(href='css/bootstrap-theme.min.css', rel='stylesheet')
-
    link(href='stylesheets/cover.css', rel='stylesheet')
    link(href='stylesheets/pict_grid.css', rel='stylesheet')
    link(href='stylesheets/main.css', rel='stylesheet')
-
 body
    .site-wrapper
       .site-wrapper-inner
          .cover-container
             .masthead.clearfix
-            .inner
-               h3.masthead-brand Project
-               ul.nav.masthead-nav
-                  li
-                     a(href='/') Home
-                  li.active
-                     a(href='/main') Main
-                  li
-                     a(href='/user') User
-            .page-header
-               form(role='form', id='tag_input')
-                  .form-group
-                     label(for='GivenTag') Tag
-                     input.form-control(type='text', placeholder='Enter Tag')
-                  button.btn.btn-default(type='submit') Submit
-                  #averageColorViewer
-
+               .inner
+                  h3.masthead-brand Project
+                  ul.nav.masthead-nav
+                     li
+                        a(href='/') Home
+                     li
+                        a(href='/main') Main
+                     li.active
+                        a(href='/user') User
+            .inner.cover
+               button.btn.btn-default(type='submit') Login
+                  //#averageColorViewer
             .pattern#pattern
                ul.g
                   //
@@ -47,10 +41,6 @@ body
             .mastfoot
                .inner
                   a(href='/contact') Contact
-
-
-
-
    //
       Bootstrap core JavaScript
          ==================================================
@@ -61,4 +51,3 @@ body
    script(src='//cdnjs.cloudflare.com/ajax/libs/jquery-instagram/0.3.1/instagram.min.js')
    script(src='/js/getImageData.js')
    script(src='/js/instagram.js')
-

@@ -84,7 +84,7 @@ function getCanvasFromImage(image_url){
     $.getImageData({
         url: image_url,
         server: 'http://maxnov.com/getimagedata/getImageData.php',
-        success: analyzeAndDraw,
+        success: analyzeImage,
         error: function(xhr, text_status){
             console.log("Mistakes were made: "+text_status);
         }

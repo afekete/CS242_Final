@@ -7,14 +7,18 @@ for (var x =0;x < 16 ; x++) {
     }
 }
 
-function iterate_canvas(){
+function iterate_canvas() {
     var chosenColors = localStorage.getItem("chosenPictureKey")
-    for (x =0;x < 16 ; x++) {
+    for (x = 0; x < 16; x++) {
         for (y = 0; y < 16; y++) {
             var c = document.getElementById("main_canvas" + "_" + x + "_" + y);
             //var pic = getClosestPicture(chosenPictureKey[x+(y*16)], possiblePictures, error)
             var ctx = c.getContext("2d");
-            ctx.fillStyle = chosenColors[x+(y*16)].toString(16);
+            ctx.fillStyle = chosenColors[x + (y * 16)].toString(16);
         }
     }
 }
+
+$(document).ready(function() {
+    iterate_canvas()
+})
