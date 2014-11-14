@@ -9,23 +9,22 @@
  * @returns {*} The position of the chosen picture in the possiblePictures array
  */
 function getClosestPicture(targetColors, possiblePictures, error) {
-    var index = 0;
-    while(true)
+    var currError = error
+    var currPic = null
+    var i
+    while(currError < 256)
     {
-        for (var key in possiblePictures) {
-            var currPic = possiblePictures[key];
-            var diffR = Math.abs(targetColors[0] - currPic[0]);
-            var diffG = Math.abs(targetColors[1] - currPic[1]);
-            var diffB = Math.abs(targetColors[2] - currPic[2]);
+        for (i in possiblePictures.length) {
+            currPic = possiblePictures[i];
+            var diffR = Math.abs(targetColors[0] - currPic[1][0]);
+            var diffG = Math.abs(targetColors[1] - currPic[1][1]);
+            var diffB = Math.abs(targetColors[2] - currPic[1][2]);
             if (diffR < error && diffG < error && diffB < error) {
-                return key
+                return currPic[0]
             }
-            if (index == possiblePictures.length - 1) {
-                index = 0;
-                error += 5
-            }
-            index++;
         }
+        currError += 5
     }
-    return "No pictures found"
+    console.log("No picture found")
+    return currPic[0]
 }

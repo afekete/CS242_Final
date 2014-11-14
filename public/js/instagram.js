@@ -1,6 +1,8 @@
 var global_next_url = ""
 
 $(document).ready(function(){
+    localStorage.removeItem('otherPicturesKey')
+    localStorage.removeItem('chosenPictureKey')
     // When tag submitted, get text and fetch pictures
     $( "#tag_input" ).submit(function( event ) {
         event.preventDefault();
@@ -21,6 +23,8 @@ $(document).ready(function(){
     // Do stuff with picture you click on
     $(".g").on('click', 'a', function(event) {
         event.preventDefault();
+        var target = document.getElementById('averageColorViewer');
+        var spinner = new Spinner(opts).spin(target);
         var url = $(this).children("img").attr("src");
         getCanvasFromImage(url, 'chosen');
         return false
@@ -52,7 +56,7 @@ function getAndAddPictures(tag, count) {
                 $('#pattern ul').append(
                     '<li><a href="/mosaic"><img src="' + picture.images.standard_resolution.url + '"></a></li>'
                 )
-                if(index <= 2) {
+                if(index <= 0) {
                     getCanvasFromImage(picture.images.standard_resolution.url, 'other')
                 }
 
@@ -95,8 +99,7 @@ function getCanvasFromImage(image_url, type){
     });
 }
 
-function analyzeImage(image){
-    console.log(image)
+function analyzeImage(image, type){
     var can = document.createElement('canvas');
     var ctx = can.getContext('2d');
 
@@ -110,10 +113,10 @@ function analyzeImage(image){
     var image_data_array_length = image_data_array.length;
 
     var averageColors = []
-    if(type = 'chosen') {
+    if(type == 'chosen') {
         averageColors = getAvgColors(image_data_array, image.width, image.height, 40, 40);
     }
-    else if(type = 'other') {
+    else if(type == 'other') {
         averageColors = getAvgColors(image_data_array, image.width, image.height, image.width, image.height);
     }
     else {
@@ -124,17 +127,21 @@ function analyzeImage(image){
     var blue = averageColors[0][2];
     $('#averageColorViewer').css("background-color", "rgb("+red+","+green+","+blue+")")
 
-    if(type = 'chosen') {
+    if(type == 'chosen') {
         localStorage.setItem("chosenPictureKey", JSON.stringify(averageColors))
+        window.location.href = "/mosaic";
     }
-    else if (type = 'other') {
+    /*
+    else if (type == 'other') {
+        console.log(localStorage.getItem("otherPicturesKey"))
         var currOtherPics = []
         if (localStorage.getItem("otherPicturesKey") !== null) {
             currOtherPics = JSON.parse(localStorage.getItem("otherPicturesKey"))
         }
-        currOtherPics.push([averageColors, image])
+        currOtherPics.push([image_data, averageColors])
         localStorage.setItem("otherPicturesKey", JSON.stringify(currOtherPics))
     }
+    */
 }
 
 function getAvgColors(image, totWidth, totHeight, subWidth, subHeight) {
@@ -167,3 +174,21 @@ function getIndex(x, y, w, h) {
     return (y*w*4)+(x*4)
 }
 
+var opts = {
+    lines: 13, // The number of lines to draw
+    length: 20, // The length of each line
+    width: 10, // The line thickness
+    radius: 30, // The radius of the inner circle
+    corners: 1, // Corner roundness (0..1)
+    rotate: 0, // The rotation offset
+    direction: 1, // 1: clockwise, -1: counterclockwise
+    color: '#fff', // #rgb or #rrggbb or array of colors
+    speed: 1, // Rounds per second
+    trail: 60, // Afterglow percentage
+    shadow: false, // Whether to render a shadow
+    hwaccel: false, // Whether to use hardware acceleration
+    className: 'spinner', // The CSS class to assign to the spinner
+    zIndex: 2e9, // The z-index (defaults to 2000000000)
+    top: '50%', // Top position relative to parent
+    left: '50%' // Left position relative to parent
+};
