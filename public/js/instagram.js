@@ -1,5 +1,6 @@
 var global_next_url = ""
 
+//document ready function used for general purposes
 $(document).ready(function(){
     localStorage.removeItem('otherPicturesKey')
     localStorage.removeItem('chosenPictureKey')
