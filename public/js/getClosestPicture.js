@@ -11,6 +11,7 @@
 function getClosestPicture(targetColors, possiblePictures, error) {
     var currError = error
     var currPic = null
+    // When error is 256, any image should suffice
     while(currError < 256)
     {
         for (var i=0; i < possiblePictures.length; i++) {
@@ -22,8 +23,10 @@ function getClosestPicture(targetColors, possiblePictures, error) {
                 return currPic[0]
             }
         }
+        // Increment the allowed error and try again. Simple way to find closest image
         currError += 5
     }
     console.log("No picture found")
+    // As a fallback, return the last picture
     return currPic[0]
 }
