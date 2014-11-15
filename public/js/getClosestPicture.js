@@ -30,3 +30,7 @@ function getClosestPicture(targetColors, possiblePictures, error) {
     // As a fallback, return the last picture
     return currPic[0]
 }
+
+exports.getClosestPicture = function(targetColors, possiblePictures, error) {
+    return getClosestPicture(targetColors, possiblePictures, error)
+}

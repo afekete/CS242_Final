@@ -50,3 +50,7 @@ function getIndex(x, y, w) {
     // Each row takes w*4 elements of the array. Multiply by number of rows and add x*4.
     return (y*w*4)+(x*4)
 }
+
+exports.getAvgColors = function(image, totWidth, totHeight, subWidth, subHeight) {
+    return getAvgColors(image, totWidth, totHeight, subWidth, subHeight)
+}

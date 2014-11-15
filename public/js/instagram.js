@@ -144,9 +144,6 @@ function analyzeImage(image, type){
     */
 }
 
-function getIndex(x, y, w, h) {
-    return (y*w*4)+(x*4)
-}
 
 var opts = {
     lines: 13, // The number of lines to draw
