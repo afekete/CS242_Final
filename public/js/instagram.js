@@ -1,5 +1,6 @@
 var global_next_url = ""
 
+//document ready function used for general purposes
 $(document).ready(function(){
     localStorage.removeItem('otherPicturesKey')
     localStorage.removeItem('chosenPictureKey')
@@ -69,6 +70,8 @@ function getAndAddPictures(tag, count) {
     });
 }
 
+//using pagination to add next picture because we need to load more images as the page ends
+//use another feature from api called pagination.next_url to get more images
 function addNextPicture(next_url){
 
     $.ajax({
@@ -87,6 +90,8 @@ function addNextPicture(next_url){
     });
 }
 
+//make a 'local' canvas out of the image using an api from maxnov.com
+//using this api we can create a temp canvas and manipulate aspects of the image
 function getCanvasFromImage(image_url, type){
     $.getImageData({
         url: image_url,
@@ -99,6 +104,9 @@ function getCanvasFromImage(image_url, type){
     });
 }
 
+//analyzeImage gets necessary data we need to analyze the image
+//analyzes average colors and calls averageColors function to compute average colors
+//local storage with some key/value items
 function analyzeImage(image, type){
     var can = document.createElement('canvas');
     var ctx = can.getContext('2d');
@@ -145,6 +153,7 @@ function analyzeImage(image, type){
 }
 
 
+//loading icon stuff
 var opts = {
     lines: 13, // The number of lines to draw
     length: 20, // The length of each line
