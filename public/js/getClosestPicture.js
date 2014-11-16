@@ -10,12 +10,11 @@
  */
 function getClosestPicture(targetColors, possiblePictures, error) {
     var currError = error
-    var currPic = null
     // When error is 256, any image should suffice
     while(currError < 256)
     {
         for (var i=0; i < possiblePictures.length; i++) {
-            currPic = possiblePictures[i];
+            var currPic = possiblePictures[i];
             var diffR = Math.abs(targetColors[0] - currPic[1][0]);
             var diffG = Math.abs(targetColors[1] - currPic[1][1]);
             var diffB = Math.abs(targetColors[2] - currPic[1][2]);
@@ -28,9 +27,10 @@ function getClosestPicture(targetColors, possiblePictures, error) {
     }
     console.log("No picture found")
     // As a fallback, return the last picture
-    return currPic[0]
+    return possiblePictures[0][0]
 }
-
+/* Uncomment to run tests
 exports.getClosestPicture = function(targetColors, possiblePictures, error) {
     return getClosestPicture(targetColors, possiblePictures, error)
 }
+*/

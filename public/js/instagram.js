@@ -3,11 +3,12 @@ var global_next_url = ""
 //document ready function used for general purposes
 $(document).ready(function(){
     localStorage.removeItem('otherPicturesKey')
-    localStorage.removeItem('chosenPictureKey')
+    localStorage.removeItem('chosenTag')
     // When tag submitted, get text and fetch pictures
     $( "#tag_input" ).submit(function( event ) {
         event.preventDefault();
         var given_tag = $( "#tag_input .form-group .form-control" ).val()
+        localStorage.setItem("chosenTag", given_tag)
         getAndAddPictures(given_tag, 100)
     });
 
@@ -139,17 +140,6 @@ function analyzeImage(image, type){
         localStorage.setItem("chosenPictureKey", JSON.stringify(averageColors))
         window.location.href = "/mosaic";
     }
-    /*
-    else if (type == 'other') {
-        console.log(localStorage.getItem("otherPicturesKey"))
-        var currOtherPics = []
-        if (localStorage.getItem("otherPicturesKey") !== null) {
-            currOtherPics = JSON.parse(localStorage.getItem("otherPicturesKey"))
-        }
-        currOtherPics.push([image_data, averageColors])
-        localStorage.setItem("otherPicturesKey", JSON.stringify(currOtherPics))
-    }
-    */
 }
 
 
