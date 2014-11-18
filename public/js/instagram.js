@@ -124,7 +124,6 @@ function analyzeImage(image, type){
     var averageColors = []
     if(type == 'chosen') {
         averageColors = getAvgColors(image_data_array, image.width, image.height, 20, 20);
-        console.log(averageColors.length)
     }
     else if(type == 'other') {
         averageColors = getAvgColors(image_data_array, image.width, image.height, image.width, image.height);
