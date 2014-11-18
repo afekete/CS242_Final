@@ -1,11 +1,11 @@
 function iterate_canvas(possiblePictures) {
     var chosenColors = JSON.parse(localStorage.getItem("chosenPictureKey"))
-    var scale = 40/640 // new dimension / original dimension
-    for (x = 0; x < 16; x++) {
-        for (y = 0; y < 16; y++) {
+    var scale = 20/640 // new dimension / original dimension
+    for (x = 0; x < 32; x++) {
+        for (y = 0; y < 32; y++) {
             var c = document.getElementById("main_canvas" + "_" + x + "_" + y);
-
-            var pic = getClosestPicture(chosenColors[x+(y*16)], possiblePictures, 10)
+            console.log(chosenColors.length)
+            var pic = getClosestPicture(chosenColors[x+(y*32)], possiblePictures, 10)
             console.log(pic)
             var ctx = c.getContext("2d");
 
