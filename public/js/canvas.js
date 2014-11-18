@@ -4,6 +4,7 @@ function iterate_canvas(possiblePictures) {
     for (x = 0; x < 32; x++) {
         for (y = 0; y < 32; y++) {
             var c = document.getElementById("main_canvas" + "_" + x + "_" + y);
+            console.log(chosenColors.length)
             var pic = getClosestPicture(chosenColors[x+(y*32)], possiblePictures, 10)
             console.log(pic)
             var ctx = c.getContext("2d");

@@ -90,7 +90,6 @@ function analyzeImage(image, type){
 
     var image_data = ctx.getImageData(0,0,image.width, image.height);
     var image_data_array = image_data.data;
-    var image_data_array_length = image_data_array.length;
 
     var averageColors = getAvgColors(image_data_array, image.width, image.height, image.width, image.height)
 

@@ -124,21 +124,16 @@ function analyzeImage(image, type){
     var averageColors = []
     if(type == 'chosen') {
         averageColors = getAvgColors(image_data_array, image.width, image.height, 20, 20);
-    }
-    else if(type == 'other') {
-        averageColors = getAvgColors(image_data_array, image.width, image.height, image.width, image.height);
+        var red = averageColors[0][0];
+        var green = averageColors[0][1];
+        var blue = averageColors[0][2];
+        $('#averageColorViewer').css("background-color", "rgb("+red+","+green+","+blue+")")
+
+        localStorage.setItem("chosenPictureKey", JSON.stringify(averageColors))
+        window.location.href = "/mosaic";
     }
     else {
         console.log("Type of picture not set")
-    }
-    var red = averageColors[0][0];
-    var green = averageColors[0][1];
-    var blue = averageColors[0][2];
-    $('#averageColorViewer').css("background-color", "rgb("+red+","+green+","+blue+")")
-
-    if(type == 'chosen') {
-        localStorage.setItem("chosenPictureKey", JSON.stringify(averageColors))
-        window.location.href = "/mosaic";
     }
 }
 
