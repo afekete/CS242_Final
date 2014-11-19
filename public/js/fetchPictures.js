@@ -28,8 +28,18 @@ var spinner = new Spinner(opts).spin(target);
 
 //document ready function used for general purposes
 $(document).ready(function(){
-    console.log(localStorage.getItem("chosenTag"))
-    getAndAddPictures(localStorage.getItem("chosenTag"), 30)
+    //console.log(localStorage.getItem("chosenTag"))
+    var id = localStorage.getItem("mosaicId")
+    if(id !== null) {
+        $.get("db/saved/"+id, function (data) {
+            localStorage.setItem("chosenTag", data.tag)
+            localStorage.setItem("chosenPictureKey", data.colors)
+            getAndAddPictures(data.tag, 30)
+        })
+    }
+    else {
+        getAndAddPictures(localStorage.getItem("chosenTag"), 30)
+    }
 });
 
 /**

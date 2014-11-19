@@ -31,6 +31,7 @@ function iterate_canvas(possiblePictures) {
 }
 
 $(document).ready(function() {
+
     $("button").click(function(){
         var newMosaic={
             '_id' : $( "input" ).val(),

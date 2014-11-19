@@ -31,6 +31,10 @@ $(document).ready(function(){
         getCanvasFromImage(url, 'chosen');
         return false
     })
+
+    $('#load').click(function() {
+        localStorage.setItem("mosaicId", $('.form-control').val())
+    })
 });
 
 /**
