@@ -4,6 +4,7 @@ var global_next_url = ""
 $(document).ready(function(){
     localStorage.removeItem('otherPicturesKey')
     localStorage.removeItem('chosenTag')
+    localStorage.removeItem('mosaicId')
     // When tag submitted, get text and fetch pictures
     $( "#tag_input" ).submit(function( event ) {
         event.preventDefault();
