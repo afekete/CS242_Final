@@ -2,7 +2,7 @@ var global_next_url = ""
 
 //document ready function used for general purposes
 $(document).ready(function(){
-    localStorage.removeItem('chosenPicturesKey')
+    localStorage.removeItem('chosenPictureKey')
     localStorage.removeItem('chosenTag')
     localStorage.removeItem('mosaicId')
     // When tag submitted, get text and fetch pictures
