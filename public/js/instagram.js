@@ -34,6 +34,7 @@ $(document).ready(function(){
 
     $('#load').click(function() {
         localStorage.setItem("mosaicId", $('.form-control').val())
+        window.location.href = "/mosaic";
     })
 });
 
