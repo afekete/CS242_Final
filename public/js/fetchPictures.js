@@ -29,7 +29,7 @@ var spinner = new Spinner(opts).spin(target);
 //document ready function used for general purposes
 $(document).ready(function(){
     console.log(localStorage.getItem("chosenTag"))
-    getAndAddPictures(localStorage.getItem("chosenTag"), 30)
+    getAndAddPictures(localStorage.getItem("chosenTag"), 32)
 });
 
 /**
@@ -58,6 +58,24 @@ function getAndAddPictures(tag, count) {
                     getCanvasFromImage(picture.images.standard_resolution.url, 'other')
                 }
             })
+            global_next_url = data.pagination.next_url
+            //setTimeout(addNextPicture(global_next_url), 5000)
+        }
+    });
+}
+
+function addNextPicture(next_url){
+
+    $.ajax({
+        type: "GET",
+        dataType: "jsonp",
+        cache: false,
+        url: next_url,
+        success: function (data) {
+            data.data.forEach(function (picture, index) {
+
+            })
+            global_next_url = data.pagination.next_url
         }
     });
 }
