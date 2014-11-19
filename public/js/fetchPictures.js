@@ -29,7 +29,7 @@ var spinner = new Spinner(opts).spin(target);
 //document ready function used for general purposes
 $(document).ready(function(){
     console.log(localStorage.getItem("chosenTag"))
-    getAndAddPictures(localStorage.getItem("chosenTag"), 32)
+    getAndAddPictures(localStorage.getItem("chosenTag"), 30)
 });
 
 /**
