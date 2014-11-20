@@ -1,5 +1,4 @@
 //
-   Created by Robert on 11/13/2014.
 
 head
    meta(charset='utf-8')
@@ -17,7 +16,7 @@ head
 body
    .site-wrapper
       .site-wrapper-inner
-         .cover-container
+         .cover-containers
             .masthead.clearfix
             .inner
                h3.masthead-brand Project
@@ -34,6 +33,8 @@ body
                      label(for='GivenUser') UserName
                      input.form-control(type='text', placeholder='Enter User')
                   button.btn.btn-default(type='submit') Submit
+                  #averageColorViewer
+
             .pattern#pattern
                ul.g
                   //
@@ -53,4 +54,8 @@ body
    script(src='/js/bootstrap.min.js')
    script(src='//cdnjs.cloudflare.com/ajax/libs/jquery-instagram/0.3.1/instagram.min.js')
    script(src='/js/getImageData.js')
+   script(src='/js/averageColor.js')
    script(src='/js/instagram.js')
+   script(src='/js/spin.min.js')
+   script(src='/js/oauth.js')
+   script(src='/js/oAuthLogin.js')
