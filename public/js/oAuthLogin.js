@@ -1,5 +1,12 @@
+var NUM_PICS_TO_LOAD = 100
+var SUBIMAGE_DIM = 10
+
 //document ready function necessary for simple javascript purposes
 $(document).ready(function(){
+    localStorage.removeItem('chosenPictureKey')
+    localStorage.removeItem('chosenTag')
+    localStorage.removeItem('mosaicId')
+
     //taking user input as username
     $( "#user_input" ).submit(function( event ) {
         event.preventDefault();
@@ -9,9 +16,16 @@ $(document).ready(function(){
     //onclick event for mosaic and picture - still working on this
     $(".g").on('click', 'a', function(event){
         event.preventDefault();
+        var target = document.getElementById('averageColorViewer');
+        var spinner = new Spinner(opts).spin(target);
         var url = $(this).children("img").attr("src");
         getCanvasFromImage(url, 'chosen');
         return false
+    })
+
+    $('#load').click(function(){
+        localStorage.setItem("mosaicId", $('.form-control').val())
+        window.location.href = "/mosaic";
     })
 });
 
@@ -92,30 +106,24 @@ function analyzeImage(image, type){
 
     var image_data = ctx.getImageData(0,0,image.width, image.height);
     var image_data_array = image_data.data;
-    var image_data_array_length = image_data_array.length;
 
     var averageColors = []
     if(type == 'chosen') {
-        averageColors = getAvgColors(image_data_array, image.width, image.height, 40, 40);
-    }
-    else if(type == 'other') {
-        averageColors = getAvgColors(image_data_array, image.width, image.height, image.width, image.height);
+        averageColors = getAvgColors(image_data_array, image.width, image.height, SUBIMAGE_DIM, SUBIMAGE_DIM);
+        var red = averageColors[0][0];
+        var green = averageColors[0][1];
+        var blue = averageColors[0][2];
+        $('#averageColorViewer').css("background-color", "rgb("+red+","+green+","+blue+")")
+
+        localStorage.setItem("chosenPictureKey", JSON.stringify(averageColors))
+        window.location.href = "/mosaic";
     }
     else {
         console.log("Type of picture not set")
     }
-    var red = averageColors[0][0];
-    var green = averageColors[0][1];
-    var blue = averageColors[0][2];
-    $('#averageColorViewer').css("background-color", "rgb("+red+","+green+","+blue+")")
-
-    if(type == 'chosen') {
-        localStorage.setItem("chosenPictureKey", JSON.stringify(averageColors))
-        window.location.href = "/mosaic";
-    }
 }
 
-//computes average color of an image by section
+/*//computes average color of an image by section
 //section is currently 40x40 pixels and makes a list of average RBG values in that section and appends to list
 //returns the list to the above function
 function getAvgColors(image, totWidth, totHeight, subWidth, subHeight) {
@@ -148,7 +156,9 @@ function getAvgColors(image, totWidth, totHeight, subWidth, subHeight) {
 //gets index for an area - iterate 4 times because RBG and alpha for each pixel
 function getIndex(x, y, w, h) {
     return (y*w*4)+(x*4)
-}
+}*/
+
+
 //loading icon stuff
 //used for when waiting for images to load (pagination issues) or connectivity to api issues
 //also some problems when creating canvas and connection to that sdk
