@@ -1,17 +1,30 @@
+// Uses https://github.com/ubilabs/kd-tree-javascript
+
+var IMAGE_DIM = 640
+var SUBIMAGE_DIM = 20
+var IMAGE_CT_DIM = 32
+
 function iterate_canvas(possiblePictures) {
+    var tree = new kdTree(possiblePictures, distance, ["r", "g", "b"]);
+
     var chosenColors = JSON.parse(localStorage.getItem("chosenPictureKey"))
-    var scale = 20/640 // new dimension / original dimension
-    for (x = 0; x < 32; x++) {
-        for (y = 0; y < 32; y++) {
-            var c = document.getElementById("main_canvas" + "_" + x + "_" + y);
-            var pic = getClosestPicture(chosenColors[x+(y*32)], possiblePictures, 0)
+    var scale = SUBIMAGE_DIM/IMAGE_DIM // new dimension / original dimension
+    for (x = 0; x < IMAGE_CT_DIM; x++) {
+        for (y = 0; y < IMAGE_CT_DIM; y++) {
+            var c = document.getElementById("main_canvas" + "_" + x + "_" + y)
+
+            var currColors = chosenColors[x+(y*IMAGE_CT_DIM)]
+            var colorObj = {r: currColors[0], g: currColors[1], b: currColors[2]}
+            var pic = tree.nearest(colorObj, 1)
+            pic = pic[0][0]
+
             var ctx = c.getContext("2d");
 
             var tempCanvas = document.createElement('canvas');
             var tempCtx = tempCanvas.getContext('2d');
-            $(tempCanvas).attr('width', 640);
-            $(tempCanvas).attr('height', 640);
-            tempCtx.putImageData(pic, 0, 0);
+            $(tempCanvas).attr('width', IMAGE_DIM);
+            $(tempCanvas).attr('height', IMAGE_DIM);
+            tempCtx.putImageData(pic.data, 0, 0);
             ctx.clearRect(0, 0, tempCanvas.width*scale, tempCanvas.height*scale);
             ctx.drawImage(tempCanvas, 0, 0, tempCanvas.width*scale, tempCanvas.height*scale);
 
@@ -28,6 +41,13 @@ function iterate_canvas(possiblePictures) {
             */
         }
     }
+}
+
+function distance(a, b) {
+    var diffR = Math.abs(a.r - b.r);
+    var diffG = Math.abs(a.g - b.g);
+    var diffB = Math.abs(a.b - b.b);
+    return (diffR+diffG+diffB)/3;
 }
 
 $(document).ready(function() {

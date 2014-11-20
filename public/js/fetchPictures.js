@@ -4,6 +4,8 @@
 var global_next_url = ""
 var otherPictures = []
 
+var NUM_PICS_TO_LOAD = 100
+
 //loading icon stuff
 var opts = {
     lines: 13, // The number of lines to draw
@@ -34,11 +36,11 @@ $(document).ready(function(){
         $.get("db/saved/"+id, function (data) {
             localStorage.setItem("chosenTag", data.tag)
             localStorage.setItem("chosenPictureKey", data.colors)
-            getAndAddPictures(data.tag, 30)
+            getAndAddPictures(data.tag, NUM_PICS_TO_LOAD)
         })
     }
     else {
-        getAndAddPictures(localStorage.getItem("chosenTag"), 30)
+        getAndAddPictures(localStorage.getItem("chosenTag"), NUM_PICS_TO_LOAD)
     }
 });
 
@@ -60,16 +62,11 @@ function getAndAddPictures(tag, count) {
         url: tag_endpoint,
         success: function (data) {
             // Add each image and convert it to a local image
-            data.data.forEach(function (picture, index, data) {
-                if(index == data.length-1) {
-                    getCanvasFromImage(picture.images.standard_resolution.url, 'last')
-                }
-                else {
+            data.data.forEach(function (picture, index, array) {
                     getCanvasFromImage(picture.images.standard_resolution.url, 'other')
-                }
             })
             global_next_url = data.pagination.next_url
-            //setTimeout(addNextPicture(global_next_url), 5000)
+            addNextPicture(global_next_url), 5000
         }
     });
 }
@@ -82,8 +79,13 @@ function addNextPicture(next_url){
         cache: false,
         url: next_url,
         success: function (data) {
-            data.data.forEach(function (picture, index) {
-
+            data.data.forEach(function (picture, index, array) {
+                if(index == array.length-1) {
+                    getCanvasFromImage(picture.images.standard_resolution.url, 'last')
+                }
+                else {
+                    getCanvasFromImage(picture.images.standard_resolution.url, 'other')
+                }
             })
             global_next_url = data.pagination.next_url
         }
@@ -95,11 +97,14 @@ function addNextPicture(next_url){
 function getCanvasFromImage(image_url, type){
     $.getImageData({
         url: image_url,
-        server: 'http://maxnov.com/getimagedata/getImageData.php',
+        //server: 'http://maxnov.com/getimagedata/getImageData.php',
+        server: 'http://127.0.0.1:8800',
         extra: type,
         success: analyzeImage,
         error: function(xhr, text_status){
             console.log("Mistakes were made: "+text_status);
+            spinner.stop()
+            iterate_canvas(otherPictures) // Defined in canvas.js
         }
     });
 }
@@ -121,7 +126,7 @@ function analyzeImage(image, type){
 
     var averageColors = getAvgColors(image_data_array, image.width, image.height, image.width, image.height)
 
-    otherPictures.push([image_data, averageColors[0]])
+    otherPictures.push({r: averageColors[0][0], g: averageColors[0][1], b: averageColors[0][2], data: image_data})
     console.log(type)
     if(type == "last") {
         spinner.stop()

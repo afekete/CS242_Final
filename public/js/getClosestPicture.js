@@ -8,7 +8,7 @@
  * @param error The allowed difference between a picture and the target
  * @returns {*} The local image file to be used
  */
-function getClosestPicture(targetColors, possiblePictures, error) {
+function getClosestPicture(targetColors, kdTree) {
     var currError = error
     // When error is 256, any image should suffice
     while(currError < 256)
