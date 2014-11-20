@@ -1,8 +1,8 @@
 // Uses https://github.com/ubilabs/kd-tree-javascript
 
 var IMAGE_DIM = 640
-var SUBIMAGE_DIM = 20
-var IMAGE_CT_DIM = 32
+var SUBIMAGE_DIM = 10
+var IMAGE_CT_DIM = 64
 
 function iterate_canvas(possiblePictures) {
     var tree = new kdTree(possiblePictures, distance, ["r", "g", "b"]);
@@ -11,6 +11,7 @@ function iterate_canvas(possiblePictures) {
     var scale = SUBIMAGE_DIM/IMAGE_DIM // new dimension / original dimension
     for (x = 0; x < IMAGE_CT_DIM; x++) {
         for (y = 0; y < IMAGE_CT_DIM; y++) {
+            console.log('choosing pic')
             var c = document.getElementById("main_canvas" + "_" + x + "_" + y)
 
             var currColors = chosenColors[x+(y*IMAGE_CT_DIM)]

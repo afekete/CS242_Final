@@ -1,5 +1,8 @@
 var global_next_url = ""
 
+var NUM_PICS_TO_LOAD = 100
+var SUBIMAGE_DIM = 10
+
 //document ready function used for general purposes
 $(document).ready(function(){
     localStorage.removeItem('chosenPictureKey')
@@ -10,7 +13,7 @@ $(document).ready(function(){
         event.preventDefault();
         var given_tag = $( "#tag_input .form-group .form-control" ).val()
         localStorage.setItem("chosenTag", given_tag)
-        getAndAddPictures(given_tag, 100)
+        getAndAddPictures(given_tag, NUM_PICS_TO_LOAD)
     });
 
     // Load more pictures when user scrolls to bottom
@@ -125,11 +128,10 @@ function analyzeImage(image, type){
 
     var image_data = ctx.getImageData(0,0,image.width, image.height);
     var image_data_array = image_data.data;
-    var image_data_array_length = image_data_array.length;
 
     var averageColors = []
     if(type == 'chosen') {
-        averageColors = getAvgColors(image_data_array, image.width, image.height, 20, 20);
+        averageColors = getAvgColors(image_data_array, image.width, image.height, SUBIMAGE_DIM, SUBIMAGE_DIM);
         var red = averageColors[0][0];
         var green = averageColors[0][1];
         var blue = averageColors[0][2];
