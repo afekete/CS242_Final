@@ -3,6 +3,7 @@
  */
 var global_next_url = ""
 var otherPictures = []
+var picture_generated = false
 
 var NUM_PICS_TO_LOAD = 100
 
@@ -97,14 +98,17 @@ function addNextPicture(next_url){
 function getCanvasFromImage(image_url, type){
     $.getImageData({
         url: image_url,
-        //server: 'http://maxnov.com/getimagedata/getImageData.php',
-        server: 'http://127.0.0.1:8800',
+        server: 'http://maxnov.com/getimagedata/getImageData.php',
+        //server: 'http://127.0.0.1:8800',
         extra: type,
         success: analyzeImage,
         error: function(xhr, text_status){
             console.log("Mistakes were made: "+text_status);
-            spinner.stop()
-            iterate_canvas(otherPictures) // Defined in canvas.js
+            if(!picture_generated) {
+                spinner.stop()
+                iterate_canvas(otherPictures) // Defined in canvas.js
+                picture_generated = true
+            }
         }
     });
 }
