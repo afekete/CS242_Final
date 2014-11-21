@@ -62,7 +62,7 @@ describe ("testing average colors of an image", function(){
     it("pixelcount test", funtion(){
         expect(pixelCt).not.toBe(null);
         expect(pixelCt).toBe(640*640);
-        expect(pixelCtSection).toBe(40*40)
+        expect(pixelCtSection).toBe(40*40);
     });
 });
 

@@ -1,25 +1,3 @@
-/*
- *
- *  jQuery $.getImageData Plugin 0.3
- *  http://www.maxnov.com/getimagedata
- *  
- *  Written by Max Novakovic (http://www.maxnov.com/)
- *  Date: Thu Jan 13 2011
- *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- *  
- *  Includes jQuery JSONP Core Plugin 2.4.0 (2012-08-21)
- *  https://github.com/jaubourg/jquery-jsonp
- *  Copyright 2012, Julian Aubourg
- *  Released under the MIT License.
- * 
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- *  
- *  Copyright 2011, Max Novakovic
- *  Dual licensed under the MIT or GPL Version 2 licenses.
- *  http://www.maxnov.com/getimagedata/#license
- * 
- */
 
 // jQuery JSONP
 (function(d){function U(){}function V(a){r=[a]}function e(a,d,e){return a&&a.apply(d.context||d,e)}function g(a){function g(b){l++||(m(),n&&(t[c]={s:[b]}),A&&(b=A.apply(a,[b])),e(u,a,[b,B,a]),e(C,a,[a,B]))}function s(b){l++||(m(),n&&b!=D&&(t[c]=b),e(v,a,[a,b]),e(C,a,[a,b]))}a=d.extend({},E,a);var u=a.success,v=a.error,C=a.complete,A=a.dataFilter,p=a.callbackParameter,F=a.callback,W=a.cache,n=a.pageCache,G=a.charset,c=a.url,f=a.data,H=a.timeout,q,l=0,m=U,b,h,w;I&&I(function(a){a.done(u).fail(v);u=
