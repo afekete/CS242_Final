@@ -1,7 +1,7 @@
 // Uses https://github.com/ubilabs/kd-tree-javascript
 
 var IMAGE_DIM = 640
-var SUBIMAGE_DIM = 10
+var SUBIMAGE_DIM = 20
 var IMAGE_CT_DIM = IMAGE_DIM/SUBIMAGE_DIM
 
 function iterate_canvas(possiblePictures) {
@@ -69,18 +69,21 @@ $(document).ready(function() {
             console.log(msg);
         });
     })
-
+    var arr = []
     $("#Left").click(function(){
-        for (x = 0; x < IMAGE_CT_DIM; x++) {
-            for (y = 0; y < IMAGE_CT_DIM; y++) {
-                var p = "main_canvas" + "_" + x + "_" + y
-                p = $(p).detach();
+        for (var y = IMAGE_CT_DIM-1; y >=0 ; y--) {
+            for ( var x = 0; x < IMAGE_CT_DIM; x++) {
+                var c = document.getElementById("main_canvas" + "_" + x + "_" + y)
+                console.log(c)
+                var ctx = c.getContext("2d");
+                arr.push(ctx.getImageData(0,0,SUBIMAGE_DIM,SUBIMAGE_DIM))
             }
         }
-        for (y = IMAGE_CT_DIM; y >0 ; y--) {
-            for (x = 0; x < IMAGE_CT_DIM; x++) {
-                var p = "main_canvas" + "_" + x + "_" + y
-                $(p).appendTo("#canvases");
+        for (x = 0; x < IMAGE_CT_DIM; x++) {
+            for (y = 0; y < IMAGE_CT_DIM; y++) {
+                var c = document.getElementById("main_canvas" + "_" + x + "_" + y)
+                var ctx = c.getContext("2d");
+                ctx.putImageData(arr.shift(),0,0)
             }
         }
     })
