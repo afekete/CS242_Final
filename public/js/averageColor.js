@@ -23,16 +23,20 @@ function getAvgColors(image, totWidth, totHeight, subWidth, subHeight) {
                 for(y_sub = y; y_sub < y+subHeight; y_sub++) {
                     // Get array index for current position and sum rgb values over the area
                     var currIndex = getIndex(x_sub, y_sub, totWidth, totHeight);
-                    avgR += image[currIndex];
-                    avgG += image[currIndex+1];
-                    avgB += image[currIndex+2];
+                    avgR += Math.pow(image[currIndex],2);
+                    avgG += Math.pow(image[currIndex+1],2);
+                    avgB += Math.pow(image[currIndex+2],2);
                 }
             }
             // Divide average values by number of values and take floor
             var pixelCt = subWidth*subHeight;
-            avgR /= pixelCt;
-            avgG /= pixelCt;
-            avgB /= pixelCt;
+            avgR /= pixelCt
+            avgR = Math.sqrt(avgR)
+            avgG /= pixelCt
+            avgG = Math.sqrt(avgG)
+            avgB /= pixelCt
+            avgB = Math.sqrt(avgB)
+
             averageColors.push([Math.floor(avgR), Math.floor(avgG), Math.floor(avgB)]);
         }
     }

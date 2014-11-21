@@ -1,3 +1,4 @@
+
 var global_next_url = ""
 
 var NUM_PICS_TO_LOAD = 100

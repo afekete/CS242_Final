@@ -64,12 +64,7 @@ function getAndAddPictures(tag, count) {
         success: function (data) {
             // Add each image and convert it to a local image
             data.data.forEach(function (picture, index, array) {
-                if(index == array.length-1) {
-                    getCanvasFromImage(picture.images.standard_resolution.url, 'last')
-                }
-                else {
-                    getCanvasFromImage(picture.images.standard_resolution.url, 'other')
-                }
+                getCanvasFromImage(picture.images.standard_resolution.url, 'other')
             })
             global_next_url = data.pagination.next_url
             addNextPicture(global_next_url)
@@ -103,8 +98,8 @@ function addNextPicture(next_url){
 function getCanvasFromImage(image_url, type){
     $.getImageData({
         url: image_url,
-        server: 'http://maxnov.com/getimagedata/getImageData.php',
-        //server: 'http://127.0.0.1:8800',
+        //server: 'http://maxnov.com/getimagedata/getImageData.php',
+        server: 'http://127.0.0.1:8800',
         extra: type,
         success: analyzeImage,
         error: function(xhr, text_status){
