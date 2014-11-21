@@ -31,7 +31,7 @@ var spinner = new Spinner(opts).spin(target);
 
 //document ready function used for general purposes
 $(document).ready(function(){
-    //console.log(localStorage.getItem("chosenTag"))
+
     var id = localStorage.getItem("mosaicId")
     if(id !== null) {
         $.get("db/saved/"+id, function (data) {
@@ -64,10 +64,15 @@ function getAndAddPictures(tag, count) {
         success: function (data) {
             // Add each image and convert it to a local image
             data.data.forEach(function (picture, index, array) {
+                if(index == array.length-1) {
+                    getCanvasFromImage(picture.images.standard_resolution.url, 'last')
+                }
+                else {
                     getCanvasFromImage(picture.images.standard_resolution.url, 'other')
+                }
             })
             global_next_url = data.pagination.next_url
-            addNextPicture(global_next_url), 5000
+            addNextPicture(global_next_url)
         }
     });
 }
@@ -106,6 +111,7 @@ function getCanvasFromImage(image_url, type){
             console.log("Mistakes were made: "+text_status);
             if(!picture_generated) {
                 spinner.stop()
+                //progressJs().start()
                 iterate_canvas(otherPictures) // Defined in canvas.js
                 picture_generated = true
             }
@@ -134,6 +140,7 @@ function analyzeImage(image, type){
     console.log(type)
     if(type == "last") {
         spinner.stop()
+        //progressJs().start()
         iterate_canvas(otherPictures) // Defined in canvas.js
     }
 }

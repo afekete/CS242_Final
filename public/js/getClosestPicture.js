@@ -2,6 +2,7 @@
  * Created by Alec on 11/11/2014.
  */
 /**
+ * NO LONGER IN USE
  * Finds the first picture close enough to the target colors from a list of picture's average colors
  * @param targetColors An array with the target color values [R,G,B]
  * @param possiblePictures An array of arrays of images and average color pairs to search through

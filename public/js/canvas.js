@@ -11,7 +11,8 @@ function iterate_canvas(possiblePictures) {
     var scale = SUBIMAGE_DIM/IMAGE_DIM // new dimension / original dimension
     for (x = 0; x < IMAGE_CT_DIM; x++) {
         for (y = 0; y < IMAGE_CT_DIM; y++) {
-            console.log('choosing pic')
+            progressJs().increase()
+
             var c = document.getElementById("main_canvas" + "_" + x + "_" + y)
 
             var currColors = chosenColors[x+(y*IMAGE_CT_DIM)]
