@@ -87,6 +87,40 @@ $(document).ready(function() {
         for (var y = IMAGE_CT_DIM-1; y >=0 ; y--) {
             for ( var x = 0; x < IMAGE_CT_DIM; x++) {
                 var c = document.getElementById("main_canvas" + "_" + x + "_" + y);
+                var ctx = c.getContext("2d");
+                arr.push(ctx.getImageData(0,0,SUBIMAGE_DIM,SUBIMAGE_DIM))
+            }
+        }
+        for (x = 0; x < IMAGE_CT_DIM; x++) {
+            for (y = 0; y < IMAGE_CT_DIM; y++) {
+                c = document.getElementById("main_canvas" + "_" + x + "_" + y);
+                ctx = c.getContext("2d");
+                ctx.putImageData(arr.shift(),0,0)
+            }
+        }
+    });
+
+    $("#Flip").click(function(){
+        for (var x = IMAGE_CT_DIM-1; x >=0 ; x--) {
+            for ( var y = 0; y < IMAGE_CT_DIM; y++) {
+                var c = document.getElementById("main_canvas" + "_" + x + "_" + y);
+                var ctx = c.getContext("2d");
+                arr.push(ctx.getImageData(0,0,SUBIMAGE_DIM,SUBIMAGE_DIM))
+            }
+        }
+        for (x = 0; x < IMAGE_CT_DIM; x++) {
+            for (y = 0; y < IMAGE_CT_DIM; y++) {
+                c = document.getElementById("main_canvas" + "_" + x + "_" + y);
+                ctx = c.getContext("2d");
+                ctx.putImageData(arr.shift(),0,0)
+            }
+        }
+    });
+
+    $("#Right").click(function(){
+        for (var y = 0; y <IMAGE_CT_DIM ; y++) {
+            for ( var x = IMAGE_CT_DIM; x >=0; x--) {
+                var c = document.getElementById("main_canvas" + "_" + x + "_" + y);
                 //console.log(c)
                 var ctx = c.getContext("2d");
                 arr.push(ctx.getImageData(0,0,SUBIMAGE_DIM,SUBIMAGE_DIM))
@@ -101,13 +135,11 @@ $(document).ready(function() {
         }
     });
 
-
     // Inverts the mosaic colors when the corresponding button is clicked
     $("#Invert").click(function(){
         for(var x = 0; x < IMAGE_CT_DIM; x++){
             for(var y = 0; y < IMAGE_CT_DIM; y++){
                 var c = document.getElementById("main_canvas" + "_" + x + "_" + y);
-                console.log(c);
                 var ctx = c.getContext("2d");
                 var image_data = ctx.getImageData(0,0, SUBIMAGE_DIM, SUBIMAGE_DIM);
                 var image_data_array = image_data.data;
