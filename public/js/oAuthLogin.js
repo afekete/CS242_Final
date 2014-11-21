@@ -11,6 +11,7 @@ $(document).ready(function(){
     $( "#user_input" ).submit(function( event ) {
         event.preventDefault();
         var given_user_name = $("#user_input .form-group .form-control" ).val()
+
         search_for_userid(given_user_name)
     });
     //onclick event for mosaic and picture - still working on this
@@ -18,6 +19,9 @@ $(document).ready(function(){
         event.preventDefault();
         var target = document.getElementById('averageColorViewer');
         var spinner = new Spinner(opts).spin(target);
+        if($(this).data("tag"))
+        localStorage.setItem("chosenTag", $(this).data("tag"))
+        console.log($(this).data("tag"));
         var url = $(this).children("img").attr("src");
         getCanvasFromImage(url, 'chosen');
         return false
@@ -67,8 +71,10 @@ function username_pics(user_id){
             $('#pattern ul').empty()
             data.data.forEach(function (picture, index) {
                 $('#pattern ul').append(
-                    '<li><a href="/mosaic"><img src="' + picture.images.standard_resolution.url + '"></a></li>'
+                    '<li><a data-tag = "' + picture.tags[0] + '" href="/mosaic"><img src="' + picture.images.standard_resolution.url + '"></a></li>'
+
                 )
+               // console.log($('#img').data('tag'))
                 if(index <= 0){
                     getCanvasFromImage(picture.images.standard_resolution.url, 'other')
                 }
