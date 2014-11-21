@@ -119,7 +119,7 @@ $(document).ready(function() {
 
     $("#Right").click(function(){
         for (var y = 0; y <IMAGE_CT_DIM ; y++) {
-            for ( var x = IMAGE_CT_DIM; x >=0; x--) {
+            for ( var x = IMAGE_CT_DIM-1; x >=0; x--) {
                 var c = document.getElementById("main_canvas" + "_" + x + "_" + y);
                 //console.log(c)
                 var ctx = c.getContext("2d");
