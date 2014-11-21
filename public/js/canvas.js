@@ -1,8 +1,8 @@
 // Uses https://github.com/ubilabs/kd-tree-javascript
 
-var IMAGE_DIM = 640 // Dimension of the full image
-var SUBIMAGE_DIM = 20 // Dimension of the sub images
-var IMAGE_CT_DIM = IMAGE_DIM/SUBIMAGE_DIM // Dimension of the mosaic (how many images in one dimension)
+var IMAGE_DIM = 640; // Dimension of the full image
+var SUBIMAGE_DIM = 20; // Dimension of the sub images
+var IMAGE_CT_DIM = IMAGE_DIM/SUBIMAGE_DIM; // Dimension of the mosaic (how many images in one dimension)
 
 /**
  * Iterate over the canvases and find the best picture from possiblePictures for the corresponding average color
@@ -13,25 +13,25 @@ function iterate_canvas(possiblePictures) {
     var tree = new kdTree(possiblePictures, distance, ["r", "g", "b"]);
 
     // Get the average colors of the chosen picture from local storage
-    var chosenColors = JSON.parse(localStorage.getItem("chosenPictureAverages"))
+    var chosenColors = JSON.parse(localStorage.getItem("chosenPictureAverages"));
 
     // Calculate the scaling factor
-    var scale = SUBIMAGE_DIM/IMAGE_DIM // new dimension / original dimension
+    var scale = SUBIMAGE_DIM/IMAGE_DIM; // new dimension / original dimension
 
-    for (x = 0; x < IMAGE_CT_DIM; x++) {
-        for (y = 0; y < IMAGE_CT_DIM; y++) {
+    for (var x = 0; x < IMAGE_CT_DIM; x++) {
+        for (var y = 0; y < IMAGE_CT_DIM; y++) {
             //progressJs().increase()
 
             // Get the current canvas
-            var currCanvas = document.getElementById("main_canvas" + "_" + x + "_" + y)
+            var currCanvas = document.getElementById("main_canvas" + "_" + x + "_" + y);
 
             // Get the average colors for the current subarray, then create an object of those colors
-            var currColors = chosenColors[x+(y*IMAGE_CT_DIM)]
-            var colorObj = {r: currColors[0], g: currColors[1], b: currColors[2]}
+            var currColors = chosenColors[x+(y*IMAGE_CT_DIM)];
+            var colorObj = {r: currColors[0], g: currColors[1], b: currColors[2]};
 
             // Find the nearest neighbor to the average colors
-            var pic = tree.nearest(colorObj, 1)
-            pic = pic[0][0]
+            var pic = tree.nearest(colorObj, 1);
+            pic = pic[0][0];
 
             var ctx = currCanvas.getContext("2d");
 
@@ -70,7 +70,7 @@ $(document).ready(function() {
             '_id' : $( "input" ).val(),
             'tag' : localStorage.getItem("chosenTag"),
             'colors' : localStorage.getItem("chosenPictureAverages")
-        }
+        };
         $.ajax({
             url: "/db/saved",
             type: "POST",
@@ -79,14 +79,14 @@ $(document).ready(function() {
         }).done(function( msg ) {
             console.log(msg);
         });
-    })
+    });
 
-    var arr = []
+    var arr = [];
     // Rotates the picture counterclockwise when the corresponding button is clicked
     $("#Left").click(function(){
         for (var y = IMAGE_CT_DIM-1; y >=0 ; y--) {
             for ( var x = 0; x < IMAGE_CT_DIM; x++) {
-                var c = document.getElementById("main_canvas" + "_" + x + "_" + y)
+                var c = document.getElementById("main_canvas" + "_" + x + "_" + y);
                 //console.log(c)
                 var ctx = c.getContext("2d");
                 arr.push(ctx.getImageData(0,0,SUBIMAGE_DIM,SUBIMAGE_DIM))
@@ -94,27 +94,25 @@ $(document).ready(function() {
         }
         for (x = 0; x < IMAGE_CT_DIM; x++) {
             for (y = 0; y < IMAGE_CT_DIM; y++) {
-                var c = document.getElementById("main_canvas" + "_" + x + "_" + y)
-                var ctx = c.getContext("2d");
+                c = document.getElementById("main_canvas" + "_" + x + "_" + y);
+                ctx = c.getContext("2d");
                 ctx.putImageData(arr.shift(),0,0)
             }
         }
-    })
+    });
 
 
     // Inverts the mosaic colors when the corresponding button is clicked
     $("#Invert").click(function(){
         for(var x = 0; x < IMAGE_CT_DIM; x++){
             for(var y = 0; y < IMAGE_CT_DIM; y++){
-                var c = document.getElementById("main_canvas" + "_" + x + "_" + y)
-                console.log(c)
+                var c = document.getElementById("main_canvas" + "_" + x + "_" + y);
+                console.log(c);
                 var ctx = c.getContext("2d");
                 var image_data = ctx.getImageData(0,0, SUBIMAGE_DIM, SUBIMAGE_DIM);
                 var image_data_array = image_data.data;
-                console.log(image_data_array)
+                console.log(image_data_array);
                 var image_data_array_length = image_data_array.length;
-
-                var a=[0,0,0];
 
                 // Accumulate the pixel colours
                 for (var i = 0; i < image_data_array_length; i += 4){
@@ -128,4 +126,4 @@ $(document).ready(function() {
         }
     })
 
-})
+});

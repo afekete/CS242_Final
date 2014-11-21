@@ -1,11 +1,11 @@
 /**
  * Created by Alec on 11/15/2014.
  */
-var global_next_url = "" // Stores the next pagination url
-var otherPictures = [] // Stores the pictures and their average colors from instagram
-var picture_generated = false // Tracks whether the picture has started being generated or not
+var global_next_url = ""; // Stores the next pagination url
+var otherPictures = []; // Stores the pictures and their average colors from instagram
+var picture_generated = false; // Tracks whether the picture has started being generated or not
 
-var NUM_PICS_TO_LOAD = 100 // Number of pictures to request from the instagram api
+var NUM_PICS_TO_LOAD = 100; // Number of pictures to request from the instagram api
 
 //loading icon options
 var opts = {
@@ -32,13 +32,13 @@ var spinner = new Spinner(opts).spin(target);
 
 // Runs when the page is loaded. Sets up jquery listeners and localStorage.
 $(document).ready(function(){
-    var id = localStorage.getItem("mosaicId")
+    var id = localStorage.getItem("mosaicId");
 
     // If the id is set, load the info from the database into localStorage
     if(id !== null) {
         $.get("db/saved/"+id, function (data) {
-            localStorage.setItem("chosenTag", data.tag)
-            localStorage.setItem("chosenPictureAverages", data.colors)
+            localStorage.setItem("chosenTag", data.tag);
+            localStorage.setItem("chosenPictureAverages", data.colors);
             getAndAddPictures(data.tag, NUM_PICS_TO_LOAD)
         })
     }
@@ -66,11 +66,11 @@ function getAndAddPictures(tag, count) {
         url: tag_endpoint,
         success: function (data) {
             // Add each image and call function that converts it to a local image
-            data.data.forEach(function (picture, index, array) {
+            data.data.forEach(function (picture) {
                 getCanvasFromImage(picture.images.standard_resolution.url, 'other')
-            })
+            });
             // Save the next url for pagination
-            global_next_url = data.pagination.next_url
+            global_next_url = data.pagination.next_url;
             // Load the next page of pictures
             addNextPicture(global_next_url)
         }
@@ -93,7 +93,7 @@ function addNextPicture(next_url){
                 else {
                     getCanvasFromImage(picture.images.standard_resolution.url, 'other')
                 }
-            })
+            });
             // Save the next pagination url
             global_next_url = data.pagination.next_url
         }
@@ -104,6 +104,7 @@ function addNextPicture(next_url){
  * make a 'local' canvas out of the image using an api from maxnov.com or localhost
  * using this api we can create a temp canvas and manipulate aspects of the image
  * @param image_url Url of the image to convert
+ * @param type Whether or not the image is the last one to be loaded (either 'last' or 'other')
  */
 function getCanvasFromImage(image_url, type){
     $.getImageData({
@@ -113,11 +114,11 @@ function getCanvasFromImage(image_url, type){
         extra: type,
         success: analyzeImage,
         error: function(xhr, text_status){
-            //console.log("Mistakes were made: "+text_status);
+            console.log("Mistakes were made: "+text_status);
             if(!picture_generated) {
-                spinner.stop()
+                spinner.stop();
                 //progressJs().start()
-                iterate_canvas(otherPictures) // Defined in canvas.js
+                iterate_canvas(otherPictures); // Defined in canvas.js
                 picture_generated = true
             }
         }
@@ -140,21 +141,21 @@ function analyzeImage(image, type){
     $(can).attr('height', image.height);
 
     // Add the image to the canvas and get the image data from the canvas
-    ctx.drawImage(image, 0, 0, image.width, image.height)
+    ctx.drawImage(image, 0, 0, image.width, image.height);
 
     var image_data = ctx.getImageData(0,0,image.width, image.height);
     var image_data_array = image_data.data;
 
     // Get the average colors of the image
-    var averageColors = getAvgColors(image_data_array, image.width, image.height, image.width, image.height)
+    var averageColors = getAvgColors(image_data_array, image.width, image.height, image.width, image.height);
 
     // Add an object to the otherPictures array for each picture with the average colors and the image data
-    otherPictures.push({r: averageColors[0][0], g: averageColors[0][1], b: averageColors[0][2], data: image_data})
-    console.log(type) // Tracks how many pictures are loaded
+    otherPictures.push({r: averageColors[0][0], g: averageColors[0][1], b: averageColors[0][2], data: image_data});
+    console.log(type); // Tracks how many pictures are loaded
     if(type == "last") {
-        spinner.stop()
+        spinner.stop();
         //progressJs().start()
-        iterate_canvas(otherPictures) // Defined in canvas.js, creates the mosaic
+        iterate_canvas(otherPictures); // Defined in canvas.js, creates the mosaic
     }
 }
 

@@ -22,7 +22,7 @@ function getAvgColors(image, totWidth, totHeight, subWidth, subHeight) {
             for(var x_sub = x; x_sub < x+subWidth; x_sub++) {
                 for(var y_sub = y; y_sub < y+subHeight; y_sub++) {
                     // Get array index for current position and sum sum squares of rgb values over the area
-                    var currIndex = getIndex(x_sub, y_sub, totWidth, totHeight);
+                    var currIndex = getIndex(x_sub, y_sub, totWidth);
                     avgR += Math.pow(image[currIndex],2);
                     avgG += Math.pow(image[currIndex+1],2);
                     avgB += Math.pow(image[currIndex+2],2);
@@ -30,12 +30,12 @@ function getAvgColors(image, totWidth, totHeight, subWidth, subHeight) {
             }
             // Compute root mean square and take floor
             var pixelCt = subWidth*subHeight;
-            avgR /= pixelCt
-            avgR = Math.sqrt(avgR)
-            avgG /= pixelCt
-            avgG = Math.sqrt(avgG)
-            avgB /= pixelCt
-            avgB = Math.sqrt(avgB)
+            avgR /= pixelCt;
+            avgR = Math.sqrt(avgR);
+            avgG /= pixelCt;
+            avgG = Math.sqrt(avgG);
+            avgB /= pixelCt;
+            avgB = Math.sqrt(avgB);
 
             averageColors.push([Math.floor(avgR), Math.floor(avgG), Math.floor(avgB)]);
         }

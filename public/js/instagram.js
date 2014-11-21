@@ -1,22 +1,22 @@
 // Stores the pagination url with the next set of pictures
-var global_next_url = ""
+var global_next_url = "";
 
 // The number of pictures we request from the instagram API
-var NUM_PICS_TO_LOAD = 100
+var NUM_PICS_TO_LOAD = 100;
 // The dimension of the subpictures
-var SUBIMAGE_DIM = 20
+var SUBIMAGE_DIM = 20;
 
 // Runs when the page is loaded. Sets up jquery listeners and localStorage.
 $(document).ready(function(){
     // Remove localStorage so old values don't mess things up
-    localStorage.removeItem('chosenPictureAverages')
-    localStorage.removeItem('chosenTag')
-    localStorage.removeItem('mosaicId')
+    localStorage.removeItem('chosenPictureAverages');
+    localStorage.removeItem('chosenTag');
+    localStorage.removeItem('mosaicId');
     // When tag submitted, get text and fetch pictures with that tag
     $( "#tag_input" ).submit(function( event ) {
         event.preventDefault(); // Prevent redirect on form submission
-        var given_tag = $( "#tag_input .form-group .form-control" ).val()
-        localStorage.setItem("chosenTag", given_tag)
+        var given_tag = $( "#tag_input").find(".form-group .form-control" ).val();
+        localStorage.setItem("chosenTag", given_tag);
         getAndAddPictures(given_tag, NUM_PICS_TO_LOAD)
     });
 
@@ -40,13 +40,13 @@ $(document).ready(function(){
 
         // Get url of chosen image
         var url = $(this).children("img").attr("src");
-        getCanvasFromImage(url, 'chosen');
+        getCanvasFromImage(url);
         return false
-    })
+    });
 
     // Load mosaic with the id in the text box
     $('#load').click(function() {
-        localStorage.setItem("mosaicId", $('.form-control').val())
+        localStorage.setItem("mosaicId", $('.form-control').val());
         window.location.href = "/mosaic";
     })
 });
@@ -69,17 +69,17 @@ function getAndAddPictures(tag, count) {
         url: tag_endpoint,
         success: function (data) {
             // Remove previous images when switching tags
-            $('#pattern ul').empty()
+            $('#pattern').find('ul').empty();
 
             // Add each image and convert it to a local image
             data.data.forEach(function (picture, index) {
-                $('#pattern ul').append(
+                $('#pattern').find('ul').append(
                     '<li><a href="/mosaic"><img src="' + picture.images.standard_resolution.url + '"></a></li>'
                 )
 
-            })
+            });
 
-            global_next_url = data.pagination.next_url
+            global_next_url = data.pagination.next_url;
             addNextPicture(global_next_url)
 
         }
@@ -100,7 +100,7 @@ function addNextPicture(next_url){
                 $('#pattern ul').append(
                     '<li><a href="/mosaic"><img src="' + picture.images.standard_resolution.url + '"></a></li>'
                 )
-            })
+            });
             global_next_url = data.pagination.next_url
         }
     });
@@ -111,7 +111,7 @@ function addNextPicture(next_url){
  * using this api we can create a temp canvas and manipulate aspects of the image
  * @param image_url Url of the image to convert
  */
-function getCanvasFromImage(image_url, type){
+function getCanvasFromImage(image_url){
     $.getImageData({
         url: image_url,
         server: 'http://maxnov.com/getimagedata/getImageData.php',
@@ -140,17 +140,16 @@ function analyzeImage(image, extra){
     $(can).attr('height', image.height);
 
     // Add the image to the canvas and get the image data from the canvas
-    ctx.drawImage(image, 0, 0, image.width, image.height)
+    ctx.drawImage(image, 0, 0, image.width, image.height);
 
     var image_data = ctx.getImageData(0,0,image.width, image.height);
     var image_data_array = image_data.data;
 
     // Get the average colors of the image
-    var averageColors = []
-    averageColors = getAvgColors(image_data_array, image.width, image.height, SUBIMAGE_DIM, SUBIMAGE_DIM);
+    var averageColors = getAvgColors(image_data_array, image.width, image.height, SUBIMAGE_DIM, SUBIMAGE_DIM);
 
     // Save average colors to local storage and redirect to /mosaic
-    localStorage.setItem("chosenPictureAverages", JSON.stringify(averageColors))
+    localStorage.setItem("chosenPictureAverages", JSON.stringify(averageColors));
     window.location.href = "/mosaic";
 
 }
