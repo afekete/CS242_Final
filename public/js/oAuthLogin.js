@@ -19,8 +19,14 @@ $(document).ready(function(){
         event.preventDefault();
         var target = document.getElementById('averageColorViewer');
         var spinner = new Spinner(opts).spin(target);
-        if($(this).data("tag"))
-        localStorage.setItem("chosenTag", $(this).data("tag"))
+        if(($(this).data("tag"))!= "undefined")
+        {
+            localStorage.setItem("chosenTag", $(this).data("tag"))
+        }
+        else
+        {
+            localStorage.setItem("chosenTag", "undefined")
+        }
         console.log($(this).data("tag"));
         var url = $(this).children("img").attr("src");
         getCanvasFromImage(url, 'chosen');
