@@ -1,5 +1,5 @@
 var NUM_PICS_TO_LOAD = 100
-var SUBIMAGE_DIM = 10
+var SUBIMAGE_DIM = 20
 
 //document ready function necessary for simple javascript purposes
 $(document).ready(function(){
@@ -106,7 +106,7 @@ function getCanvasFromImage(image_url, type) {
 }
 
 //analyzing image by getting more information from canvas
-//local storage of some elements and key value pairs
+//local storage of some elements and ''' value pairs
 function analyzeImage(image, type){
     var can = document.createElement('canvas');
     var ctx = can.getContext('2d');
