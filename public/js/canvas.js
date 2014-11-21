@@ -11,7 +11,7 @@ function iterate_canvas(possiblePictures) {
     var scale = SUBIMAGE_DIM/IMAGE_DIM // new dimension / original dimension
     for (x = 0; x < IMAGE_CT_DIM; x++) {
         for (y = 0; y < IMAGE_CT_DIM; y++) {
-            progressJs().increase()
+            //progressJs().increase()
 
             var c = document.getElementById("main_canvas" + "_" + x + "_" + y)
 
@@ -54,7 +54,7 @@ function distance(a, b) {
 
 $(document).ready(function() {
 
-    $("button").click(function(){
+    $("#save").click(function(){
         var newMosaic={
             '_id' : $( "input" ).val(),
             'tag' : localStorage.getItem("chosenTag"),
@@ -68,6 +68,21 @@ $(document).ready(function() {
         }).done(function( msg ) {
             console.log(msg);
         });
+    })
+
+    $("#Left").click(function(){
+        for (x = 0; x < IMAGE_CT_DIM; x++) {
+            for (y = 0; y < IMAGE_CT_DIM; y++) {
+                var p = "main_canvas" + "_" + x + "_" + y
+                p = $(p).detach();
+            }
+        }
+        for (y = IMAGE_CT_DIM; y >0 ; y--) {
+            for (x = 0; x < IMAGE_CT_DIM; x++) {
+                var p = "main_canvas" + "_" + x + "_" + y
+                $(p).appendTo("#canvases");
+            }
+        }
     })
 
 })
