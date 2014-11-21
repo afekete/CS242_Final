@@ -13,22 +13,22 @@
 function getAvgColors(image, totWidth, totHeight, subWidth, subHeight) {
     var averageColors = [];
     // Loop over whole picture in increments of subWidth and subHeight
-    for(x = 0; x < totWidth; x+=subWidth) {
-        for(y = 0; y < totHeight; y+=subHeight) {
+    for(var x = 0; x < totWidth; x+=subWidth) {
+        for(var y = 0; y < totHeight; y+=subHeight) {
             var avgR = 0;
             var avgG = 0;
             var avgB = 0;
             // Loop over subpictures
-            for(x_sub = x; x_sub < x+subWidth; x_sub++) {
-                for(y_sub = y; y_sub < y+subHeight; y_sub++) {
-                    // Get array index for current position and sum rgb values over the area
+            for(var x_sub = x; x_sub < x+subWidth; x_sub++) {
+                for(var y_sub = y; y_sub < y+subHeight; y_sub++) {
+                    // Get array index for current position and sum sum squares of rgb values over the area
                     var currIndex = getIndex(x_sub, y_sub, totWidth, totHeight);
                     avgR += Math.pow(image[currIndex],2);
                     avgG += Math.pow(image[currIndex+1],2);
                     avgB += Math.pow(image[currIndex+2],2);
                 }
             }
-            // Divide average values by number of values and take floor
+            // Compute root mean square and take floor
             var pixelCt = subWidth*subHeight;
             avgR /= pixelCt
             avgR = Math.sqrt(avgR)
