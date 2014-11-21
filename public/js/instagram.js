@@ -136,7 +136,6 @@ function analyzeImage(image, type){
         var red = averageColors[0][0];
         var green = averageColors[0][1];
         var blue = averageColors[0][2];
-        $('#averageColorViewer').css("background-color", "rgb("+red+","+green+","+blue+")")
 
         localStorage.setItem("chosenPictureKey", JSON.stringify(averageColors))
         window.location.href = "/mosaic";
