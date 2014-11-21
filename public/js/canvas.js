@@ -2,7 +2,7 @@
 
 var IMAGE_DIM = 640
 var SUBIMAGE_DIM = 10
-var IMAGE_CT_DIM = 64
+var IMAGE_CT_DIM = IMAGE_DIM/SUBIMAGE_DIM
 
 function iterate_canvas(possiblePictures) {
     var tree = new kdTree(possiblePictures, distance, ["r", "g", "b"]);

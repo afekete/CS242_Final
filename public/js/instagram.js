@@ -1,17 +1,20 @@
-
+// Stores the pagination url with the next set of pictures
 var global_next_url = ""
 
+// The number of pictures we request from the instagram API
 var NUM_PICS_TO_LOAD = 100
+// The dimension of the subpictures
 var SUBIMAGE_DIM = 10
 
-//document ready function used for general purposes
+// Runs when the page is loaded. Sets up jquery listeners and localStorage.
 $(document).ready(function(){
+    // Remove localStorage so old values don't mess things up
     localStorage.removeItem('chosenPictureKey')
     localStorage.removeItem('chosenTag')
     localStorage.removeItem('mosaicId')
-    // When tag submitted, get text and fetch pictures
+    // When tag submitted, get text and fetch pictures with that tag
     $( "#tag_input" ).submit(function( event ) {
-        event.preventDefault();
+        event.preventDefault(); // Prevent redirect on form submission
         var given_tag = $( "#tag_input .form-group .form-control" ).val()
         localStorage.setItem("chosenTag", given_tag)
         getAndAddPictures(given_tag, NUM_PICS_TO_LOAD)
@@ -29,14 +32,19 @@ $(document).ready(function(){
 
     // Do stuff with picture you click on
     $(".g").on('click', 'a', function(event) {
-        event.preventDefault();
+        event.preventDefault(); // Prevent redirect on click
+
+        // Create spinner
         var target = document.getElementById('averageColorViewer');
         var spinner = new Spinner(opts).spin(target);
+
+        // Get url of chosen image
         var url = $(this).children("img").attr("src");
         getCanvasFromImage(url, 'chosen');
         return false
     })
 
+    // Load mosaic with the id in the text box
     $('#load').click(function() {
         localStorage.setItem("mosaicId", $('.form-control').val())
         window.location.href = "/mosaic";
@@ -68,9 +76,6 @@ function getAndAddPictures(tag, count) {
                 $('#pattern ul').append(
                     '<li><a href="/mosaic"><img src="' + picture.images.standard_resolution.url + '"></a></li>'
                 )
-                if(index <= 0) {
-                    getCanvasFromImage(picture.images.standard_resolution.url, 'other')
-                }
 
             })
 
