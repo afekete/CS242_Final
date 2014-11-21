@@ -106,7 +106,7 @@ function getCanvasFromImage(image_url, type) {
 }
 
 //analyzing image by getting more information from canvas
-//local storage of some elements and ''' value pairs
+//local storage of some elements and key value pairs
 function analyzeImage(image, type){
     var can = document.createElement('canvas');
     var ctx = can.getContext('2d');
