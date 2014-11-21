@@ -3,7 +3,7 @@ var SUBIMAGE_DIM = 10
 
 //document ready function necessary for simple javascript purposes
 $(document).ready(function(){
-    localStorage.removeItem('chosenPictureKey')
+    localStorage.removeItem('chosenPictureAverages')
     localStorage.removeItem('chosenTag')
     localStorage.removeItem('mosaicId')
 
@@ -127,7 +127,7 @@ function analyzeImage(image, type){
         var blue = averageColors[0][2];
         $('#averageColorViewer').css("background-color", "rgb("+red+","+green+","+blue+")")
 
-        localStorage.setItem("chosenPictureKey", JSON.stringify(averageColors))
+        localStorage.setItem("chosenPictureAverages", JSON.stringify(averageColors))
         window.location.href = "/mosaic";
     }
     else {
