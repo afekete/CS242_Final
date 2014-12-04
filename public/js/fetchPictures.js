@@ -6,6 +6,9 @@ var otherPictures = []; // Stores the pictures and their average colors from ins
 var picture_generated = false; // Tracks whether the picture has started being generated or not
 
 var NUM_PICS_TO_LOAD = 100; // Number of pictures to request from the instagram api
+var IMAGE_DIM = 640; // Dimension of the full image
+var SUBIMAGE_DIM = 20; // Dimension of the sub images
+var IMAGE_CT_DIM = IMAGE_DIM/SUBIMAGE_DIM; // Dimension of the mosaic (how many images in one dimension)
 
 //loading icon options
 var opts = {
@@ -34,6 +37,12 @@ var spinner = new Spinner(opts).spin(target);
 $(document).ready(function(){
     var id = localStorage.getItem("mosaicId");
 
+    for(var x=0; x<IMAGE_CT_DIM; x++) {
+        for (var y=0;y<IMAGE_CT_DIM;y++) {
+            $('#canvases').append('<canvas id="main_canvas_' + x + '_' + y + '" width=' + SUBIMAGE_DIM + ' height=' + SUBIMAGE_DIM + '\>')
+        }
+    }
+
     // If the id is set, load the info from the database into localStorage
     if(id !== null) {
         $.get("db/saved/"+id, function (data) {
@@ -46,6 +55,30 @@ $(document).ready(function(){
     else {
         getAndAddPictures(localStorage.getItem("chosenTag"), NUM_PICS_TO_LOAD)
     }
+
+    $('#Inc').click(function() {
+        SUBIMAGE_DIM /= 2;
+        IMAGE_CT_DIM = IMAGE_DIM/SUBIMAGE_DIM; // Dimension of the mosaic (how many images in one dimension)
+        $('canvas').remove();
+        for(var x=0; x<IMAGE_CT_DIM; x++) {
+            for (var y=0;y<IMAGE_CT_DIM;y++) {
+                $('#canvases').append('<canvas id="main_canvas_' + x + '_' + y + '" width=' + SUBIMAGE_DIM + ' height=' + SUBIMAGE_DIM + '\>')
+            }
+        }
+        convertToLocal(localStorage.getItem("chosenUrl"));
+    });
+
+    $('#Dec').click(function() {
+        SUBIMAGE_DIM *= 2;
+        IMAGE_CT_DIM = IMAGE_DIM/SUBIMAGE_DIM; // Dimension of the mosaic (how many images in one dimension)
+        $('canvas').remove();
+        for(var x=0; x<IMAGE_CT_DIM; x++) {
+            for (var y=0;y<IMAGE_CT_DIM;y++) {
+                $('#canvases').append('<canvas id="main_canvas_' + x + '_' + y + '" width=' + SUBIMAGE_DIM + ' height=' + SUBIMAGE_DIM + '\>')
+            }
+        }
+        convertToLocal(localStorage.getItem("chosenUrl"));
+    })
 });
 
 /**
@@ -118,7 +151,7 @@ function getCanvasFromImage(image_url, type){
             if(!picture_generated) {
                 spinner.stop();
                 //progressJs().start()
-                iterate_canvas(otherPictures); // Defined in canvas.js
+                iterate_canvas(otherPictures, SUBIMAGE_DIM); // Defined in canvas.js
                 picture_generated = true
             }
         }
@@ -155,9 +188,54 @@ function analyzeImage(image, type){
     if(type == "last") {
         spinner.stop();
         //progressJs().start()
-        iterate_canvas(otherPictures); // Defined in canvas.js, creates the mosaic
+        iterate_canvas(otherPictures, SUBIMAGE_DIM); // Defined in canvas.js, creates the mosaic
     }
 }
 
 
+/**
+ * make a 'local' canvas out of the image using an api from maxnov.com or localhost
+ * using this api we can create a temp canvas and manipulate aspects of the image
+ * @param image_url Url of the image to convert
+ */
+function convertToLocal(image_url){
+    $.getImageData({
+        url: image_url,
+        server: 'http://maxnov.com/getimagedata/getImageData.php',
+        //server: 'http://127.0.0.1:8800',
+        extra: null,
+        success: getAverages,
+        error: function(xhr, text_status){
+            console.log("Failed to convert: "+text_status);
+        }
+    });
+}
 
+/**
+ * analyzeImage gets necessary data we need to analyze the image
+ * analyzes average colors and calls averageColors function to compute average colors
+ * local storage with some key/value items
+ * @param image The local image to use in a canvas
+ * @param extra Not used but part of the callback
+ */
+function getAverages(image, extra){
+    // Create an invisible canvas to manipulate the image
+    var can = document.createElement('canvas');
+    var ctx = can.getContext('2d');
+
+    $(can).attr('width', image.width);
+    $(can).attr('height', image.height);
+
+    // Add the image to the canvas and get the image data from the canvas
+    ctx.drawImage(image, 0, 0, image.width, image.height);
+
+    var image_data = ctx.getImageData(0,0,image.width, image.height);
+    var image_data_array = image_data.data;
+
+    // Get the average colors of the image
+    var averageColors = getAvgColors(image_data_array, image.width, image.height, SUBIMAGE_DIM, SUBIMAGE_DIM);
+
+    // Save average colors to local storage and redirect to /mosaic
+    localStorage.setItem("chosenPictureAverages", JSON.stringify(averageColors));
+    iterate_canvas(otherPictures, SUBIMAGE_DIM);
+}
