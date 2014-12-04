@@ -40,6 +40,7 @@ $(document).ready(function(){
 
         // Get url of chosen image
         var url = $(this).children("img").attr("src");
+        localStorage.setItem("chosenUrl", url);
         getCanvasFromImage(url);
         return false
     });

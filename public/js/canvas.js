@@ -7,8 +7,12 @@ var IMAGE_CT_DIM = IMAGE_DIM/SUBIMAGE_DIM; // Dimension of the mosaic (how many 
 /**
  * Iterate over the canvases and find the best picture from possiblePictures for the corresponding average color
  * @param possiblePictures An array of objects containing image datas and their average colors
+ * @param subimage_dimension One dimension of the subimages
  */
-function iterate_canvas(possiblePictures) {
+function iterate_canvas(possiblePictures, subimage_dimension) {
+    SUBIMAGE_DIM = subimage_dimension;
+    IMAGE_CT_DIM = IMAGE_DIM/SUBIMAGE_DIM;
+
     // Create a kd tree with the possible pictures
     var tree = new kdTree(possiblePictures, distance, ["r", "g", "b"]);
 
@@ -23,7 +27,7 @@ function iterate_canvas(possiblePictures) {
             //progressJs().increase()
 
             // Get the current canvas
-            var currCanvas = document.getElementById("main_canvas" + "_" + x + "_" + y);
+            var currCanvas = document.getElementById("main_canvas_" + x + "_" + y);
 
             // Get the average colors for the current subarray, then create an object of those colors
             var currColors = chosenColors[x+(y*IMAGE_CT_DIM)];
@@ -119,7 +123,7 @@ $(document).ready(function() {
 
     $("#Right").click(function(){
         for (var y = 0; y <IMAGE_CT_DIM ; y++) {
-            for ( var x = IMAGE_CT_DIM; x >=0; x--) {
+            for ( var x = IMAGE_CT_DIM-1; x >=0; x--) {
                 var c = document.getElementById("main_canvas" + "_" + x + "_" + y);
                 //console.log(c)
                 var ctx = c.getContext("2d");

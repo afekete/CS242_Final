@@ -15,6 +15,7 @@ body
     .site-wrapper
         .inner
             div#canvases(width=640 height=640)
+            //
                 -var size=32
                 -var dim=20
                 -for (var x=0;x<size;x++){
@@ -26,6 +27,8 @@ body
             button.btn.btn-default.edit#Invert(type='button') Invert
             button.btn.btn-default.edit#Flip(type='button') Flip
             button.btn.btn-default.edit#Right(type='button') Right
+            button.btn.btn-default.edit#Inc(type='button') +
+            button.btn.btn-default.edit#Dec(type='button') -
             br
             br
             .input-group

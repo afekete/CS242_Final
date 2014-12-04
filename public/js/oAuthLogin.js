@@ -1,5 +1,5 @@
 var NUM_PICS_TO_LOAD = 100
-var SUBIMAGE_DIM = 10
+var SUBIMAGE_DIM = 20
 
 //document ready function necessary for simple javascript purposes
 $(document).ready(function(){
@@ -134,41 +134,6 @@ function analyzeImage(image, type){
         console.log("Type of picture not set")
     }
 }
-
-/*//computes average color of an image by section
-//section is currently 40x40 pixels and makes a list of average RBG values in that section and appends to list
-//returns the list to the above function
-function getAvgColors(image, totWidth, totHeight, subWidth, subHeight) {
-    var averageColors = [];
-    for(x = 0; x < totWidth; x+=subWidth) {
-        for(y = 0; y < totHeight; y+=subHeight) {
-            var avgR = 0;
-            var avgG = 0;
-            var avgB = 0;
-
-            for(x_sub = x; x_sub < x+subWidth; x_sub++) {
-                for(y_sub = y; y_sub < y+subHeight; y_sub++) {
-                    var currIndex = getIndex(x_sub, y_sub, totWidth, totHeight);
-                    avgR += image[currIndex];
-                    avgG += image[currIndex+1];
-                    avgB += image[currIndex+2];
-                }
-            }
-            var pixelCt = subWidth*subHeight;
-            avgR /= pixelCt;
-            avgG /= pixelCt;
-            avgB /= pixelCt;
-            averageColors.push([Math.floor(avgR), Math.floor(avgG), Math.floor(avgB)]);
-        }
-    }
-    console.log(averageColors);
-    return averageColors;
-}
-
-//gets index for an area - iterate 4 times because RBG and alpha for each pixel
-function getIndex(x, y, w, h) {
-    return (y*w*4)+(x*4)
-}*/
 
 
 //loading icon stuff
