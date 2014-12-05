@@ -21,7 +21,7 @@ head
         .cover-container
           .masthead.clearfix
             .inner
-              h3.masthead-brand Project
+              h3.masthead-brand Instagram Mosaic
               ul.nav.masthead-nav
                   li.active
                       a(href='/') Home
@@ -32,7 +32,9 @@ head
                   li
                       a(href='/location') Locations
                   li
-                      a(href='/signin') Sign In
+                      a#curUser(href='/signin') Sign in
+                  li
+                      a#signout(href="javascript:localStorage.removeItem('username');javascript:window.location.reload()")
 
           .inner.cover
             h1.cover-heading Instagram Mosaic
@@ -50,3 +52,4 @@ head
     //
        IE10 viewport hack for Surface/desktop Windows 8 bug 
     script(src='/js/ie10-viewport-bug-workaround.js')
+    script(src='/js/curUser.js')

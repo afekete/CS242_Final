@@ -19,7 +19,7 @@ body
             .cover-container
                 .masthead.clearfix
                     .inner
-                        h3.masthead-brand Project
+                        h3.masthead-brand Instagram Mosaic
                         ul.nav.masthead-nav
                            li
                                a(href='/') Home
@@ -30,7 +30,9 @@ body
                            li.active
                                a(href='/location') Locations
                            li
-                               a(href='/signin') Sign In
+                               a#curUser(href='/signin') Sign in
+                           li
+                               a#signout(href="javascript:localStorage.removeItem('username');javascript:window.location.reload()")
                 .page-header
                     form(role='form', id='tag_input')
                         .form-group
@@ -60,5 +62,6 @@ body
     script(src='/js/averageColor.js')
     script(src='/js/instagram.js')
     script(src='/js/spin.min.js')
+    script(src='/js/curUser.js')
 
     //script(src='https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places')
