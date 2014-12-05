@@ -85,7 +85,9 @@ $(document).ready(function() {
         var newMosaic={
             '_id' : $( "input" ).val(),
             'tag' : localStorage.getItem("chosenTag"),
+            'userMade' :localStorage.getItem("username"),
             'colors' : localStorage.getItem("chosenPictureAverages")
+
         };
         $.ajax({
             url: "/db/saved",

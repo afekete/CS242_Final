@@ -21,7 +21,7 @@ body
                         ul.nav.masthead-nav
                             li
                                 a(href='/') Home
-                            li.active
+                            li
                                 a(href='/main') Main
                             li
                                 a(href='/user') User
@@ -34,15 +34,17 @@ body
                               tr
                                  th UserName
                                  th Email
-                                 th
                            tbody
                               tr
-                                 td
-                              //tr
-                                 td
-                             // tr
-                                 td
+                                 td#name
+                                 td#email
+                       table#userMosaics.table Table of Mosaics made
+                           thead
+                              tr
+                                 th Mosaic Name
+                                 th Mosaic Tag
 
 script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
    script(src='/js/bootstrap.min.js')
    script(src='/js/curUser.js')
+   script(src='/js/profile.js')
