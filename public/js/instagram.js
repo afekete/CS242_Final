@@ -4,7 +4,6 @@ var global_next_url = "";
 // The number of pictures we request from the instagram API
 var NUM_PICS_TO_LOAD = 100;
 // The dimension of the subpictures
-var SUBIMAGE_DIM = 10;
 
 // Runs when the page is loaded. Sets up jquery listeners and localStorage.
 $(document).ready(function(){

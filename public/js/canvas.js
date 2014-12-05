@@ -1,7 +1,7 @@
 // Uses https://github.com/ubilabs/kd-tree-javascript
 
 var IMAGE_DIM = 640; // Dimension of the full image
-var SUBIMAGE_DIM = 10; // Dimension of the sub images
+var SUBIMAGE_DIM = 20; // Dimension of the sub images
 var IMAGE_CT_DIM = IMAGE_DIM/SUBIMAGE_DIM; // Dimension of the mosaic (how many images in one dimension)
 
 /**
