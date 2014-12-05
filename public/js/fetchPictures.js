@@ -120,8 +120,8 @@ function getAndAddPictures(tag, count) {
 function getCanvasFromImage(image_url, type){
     $.getImageData({
         url: image_url,
-        server: 'http://maxnov.com/getimagedata/getImageData.php',
-        //server: 'http://127.0.0.1:8800',
+        //server: 'http://maxnov.com/getimagedata/getImageData.php',
+        server: 'http://127.0.0.1:8800',
         extra: type,
         success: analyzeImage,
         error: function(xhr, text_status){
