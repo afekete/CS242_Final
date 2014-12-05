@@ -37,6 +37,7 @@ var spinner = new Spinner(opts).spin(target);
 $(document).ready(function(){
     var id = localStorage.getItem("mosaicId");
 
+    // Add the canvases to the page to display the mosaic in
     for(var x=0; x<IMAGE_CT_DIM; x++) {
         for (var y=0;y<IMAGE_CT_DIM;y++) {
             $('#canvases').append('<canvas id="main_canvas_' + x + '_' + y + '" width=' + SUBIMAGE_DIM + ' height=' + SUBIMAGE_DIM + '\>')
@@ -57,6 +58,7 @@ $(document).ready(function(){
         getAndAddPictures(localStorage.getItem("given_tag"), NUM_PICS_TO_LOAD)
     }
 
+    // When the user clicks the + button, halve the subimage dimension, remove the old canvases, and regenerate the mosaic
     $('#Inc').click(function() {
         SUBIMAGE_DIM /= 2;
         IMAGE_CT_DIM = IMAGE_DIM/SUBIMAGE_DIM; // Dimension of the mosaic (how many images in one dimension)
@@ -70,6 +72,7 @@ $(document).ready(function(){
         convertToLocal(localStorage.getItem("chosenUrl"), true);
     });
 
+    // When the user clicks the - button, double the subimage dimension, remove the old canvases, and regenerate the mosaic
     $('#Dec').click(function() {
         SUBIMAGE_DIM *= 2;
         IMAGE_CT_DIM = IMAGE_DIM/SUBIMAGE_DIM; // Dimension of the mosaic (how many images in one dimension)
@@ -173,6 +176,10 @@ function analyzeImage(image, type){
 
 }
 
+/**
+ * Adds the next page of images to the array of possible pictures to use in the mosaic
+ * @param next_url The pagination url returned by the instagram api
+ */
 function addNextPicture(next_url){
     // Instagram ajax call
     $.ajax({
@@ -191,8 +198,6 @@ function addNextPicture(next_url){
                 }
             });
 
-            // Save the next pagination url
-            global_next_url = data.pagination.next_url
         }
     });
 }
@@ -218,10 +223,8 @@ function convertToLocal(image_url, gen_image){
 }
 
 /**
- * analyzeImage gets necessary data we need to analyze the image
- * analyzes average colors and calls averageColors function to compute average colors
- * local storage with some key/value items
- * @param image The local image to use in a canvas
+ * Finds the averages of the subimages of the image passed in
+ * @param image The local image to find the averages of
  * @param gen_image If true, generate the image at the end of the function
  */
 function getAverages(image, gen_image){

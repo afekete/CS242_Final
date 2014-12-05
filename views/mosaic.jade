@@ -15,13 +15,6 @@ body
     .site-wrapper
         .inner
             div#canvases(width=640 height=640)
-            //
-                -var size=32
-                -var dim=20
-                -for (var x=0;x<size;x++){
-                    -for (var y=0;y<size;y++)
-                        canvas(id="main_canvas"+"_"+x+"_"+y width=dim height=dim)
-                -}
 
             button.btn.btn-default.edit#Left(type='button') Left
             button.btn.btn-default.edit#Invert(type='button') Invert
