@@ -1,0 +1,48 @@
+head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='description', content='')
+    meta(name='author', content='')
+    link(rel='icon', href='favicon.ico')
+    title Instagram Mosaic
+    link(href='css/bootstrap.min.css', rel='stylesheet')
+    link(href='css/bootstrap-theme.min.css', rel='stylesheet')
+    link(href='stylesheets/cover.css', rel='stylesheet')
+    link(href='stylesheets/pict_grid.css', rel='stylesheet')
+    link(href='stylesheets/main.css', rel='stylesheet')
+body
+    .site-wrapper
+        .site-wrapper-inner
+            .cover-container
+                .masthead.clearfix
+                    .inner
+                        h3.masthead-brand Instagram Mosaic
+                        ul.nav.masthead-nav
+                            li
+                                a(href='/') Home
+                            li.active
+                                a(href='/main') Main
+                            li
+                                a(href='/user') User
+                            li
+                                a(href='/location') Locations
+                            li
+                                a#signout(href="javascript:localStorage.removeItem('username');javascript:window.location.href = '/main'")
+                       table.table
+                           thead
+                              tr
+                                 th UserName
+                                 th Email
+                                 th
+                           tbody
+                              tr
+                                 td
+                              //tr
+                                 td
+                             // tr
+                                 td
+
+script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
+   script(src='/js/bootstrap.min.js')
+   script(src='/js/curUser.js')
