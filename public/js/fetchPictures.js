@@ -10,8 +10,6 @@ var IMAGE_DIM = 640; // Dimension of the full image
 var SUBIMAGE_DIM = 20; // Dimension of the sub images
 var IMAGE_CT_DIM = IMAGE_DIM/SUBIMAGE_DIM; // Dimension of the mosaic (how many images in one dimension)
 
-var pages_loaded = 0;
-
 //loading icon options
 var opts = {
     lines: 13, // The number of lines to draw
@@ -107,7 +105,6 @@ function getAndAddPictures(tag, count) {
             data.data.forEach(function (picture) {
                 getCanvasFromImage(picture.images.standard_resolution.url, 'other')
             });
-            pages_loaded += 1;
 
             // Save the next url for pagination
             global_next_url = data.pagination.next_url;
@@ -193,13 +190,9 @@ function addNextPicture(next_url){
                     getCanvasFromImage(picture.images.standard_resolution.url, 'other')
                 }
             });
-            pages_loaded += 1
 
             // Save the next pagination url
             global_next_url = data.pagination.next_url
-            if(pages_loaded == 2) {
-                addNextPicture(global_next_url);
-            }
         }
     });
 }
@@ -218,6 +211,7 @@ function convertToLocal(image_url, gen_image){
         extra: gen_image,
         success: getAverages,
         error: function(xhr, text_status){
+            alert("It all broke. Refresh the page and cross your fingers.");
             console.log("Failed to convert: "+text_status);
         }
     });
