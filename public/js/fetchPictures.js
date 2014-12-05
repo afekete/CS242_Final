@@ -53,7 +53,8 @@ $(document).ready(function(){
     }
     // Otherwise the tag and average colors are already set so just load the mosaic
     else {
-        getAndAddPictures(localStorage.getItem("chosenTag"), NUM_PICS_TO_LOAD)
+        convertToLocal(localStorage.getItem("chosenUrl"), false);
+        getAndAddPictures(localStorage.getItem("given_tag"), NUM_PICS_TO_LOAD)
     }
 
     $('#Inc').click(function() {
@@ -65,7 +66,7 @@ $(document).ready(function(){
                 $('#canvases').append('<canvas id="main_canvas_' + x + '_' + y + '" width=' + SUBIMAGE_DIM + ' height=' + SUBIMAGE_DIM + '\>')
             }
         }
-        convertToLocal(localStorage.getItem("chosenUrl"));
+        convertToLocal(localStorage.getItem("chosenUrl"), true);
     });
 
     $('#Dec').click(function() {
@@ -77,12 +78,12 @@ $(document).ready(function(){
                 $('#canvases').append('<canvas id="main_canvas_' + x + '_' + y + '" width=' + SUBIMAGE_DIM + ' height=' + SUBIMAGE_DIM + '\>')
             }
         }
-        convertToLocal(localStorage.getItem("chosenUrl"));
+        convertToLocal(localStorage.getItem("chosenUrl"), true);
     })
 });
 
 /**
- * Gets pictures with submitted tag from instagram, displays them, and gets local copy of them
+ * Gets pictures with submitted tag from instagram and calls function to convert them to local images
  * @param tag The tag to get pictures for
  * @param count How many pictures to get
  */
@@ -106,29 +107,6 @@ function getAndAddPictures(tag, count) {
             global_next_url = data.pagination.next_url;
             // Load the next page of pictures
             addNextPicture(global_next_url)
-        }
-    });
-}
-
-function addNextPicture(next_url){
-    // Instagram ajax call
-    $.ajax({
-        type: "GET",
-        dataType: "jsonp",
-        cache: false,
-        url: next_url,
-        success: function (data) {
-            data.data.forEach(function (picture, index, array) {
-                // If at the last picture, mark it as last so the mosaic starts generating
-                if(index == array.length-1) {
-                    getCanvasFromImage(picture.images.standard_resolution.url, 'last')
-                }
-                else {
-                    getCanvasFromImage(picture.images.standard_resolution.url, 'other')
-                }
-            });
-            // Save the next pagination url
-            global_next_url = data.pagination.next_url
         }
     });
 }
@@ -163,9 +141,10 @@ function getCanvasFromImage(image_url, type){
  * analyzes average colors and calls averageColors function to compute average colors
  * local storage with some key/value items
  * @param image The local image to use in a canvas
- * @param type Specifies if the image is the 'last' or an 'other'
+ * @param type Whether the image is the last one or not
  */
 function analyzeImage(image, type){
+
     // Create an invisible canvas to manipulate the image
     var can = document.createElement('canvas');
     var ctx = can.getContext('2d');
@@ -190,20 +169,44 @@ function analyzeImage(image, type){
         //progressJs().start()
         iterate_canvas(otherPictures, SUBIMAGE_DIM); // Defined in canvas.js, creates the mosaic
     }
+
 }
 
+function addNextPicture(next_url){
+    // Instagram ajax call
+    $.ajax({
+        type: "GET",
+        dataType: "jsonp",
+        cache: false,
+        url: next_url,
+        success: function (data) {
+            data.data.forEach(function (picture, index, array) {
+                // If at the last picture, mark it as last so the mosaic starts generating
+                if(index == array.length-1) {
+                    getCanvasFromImage(picture.images.standard_resolution.url, 'last')
+                }
+                else {
+                    getCanvasFromImage(picture.images.standard_resolution.url, 'other')
+                }
+            });
+            // Save the next pagination url
+            global_next_url = data.pagination.next_url
+        }
+    });
+}
 
 /**
  * make a 'local' canvas out of the image using an api from maxnov.com or localhost
  * using this api we can create a temp canvas and manipulate aspects of the image
  * @param image_url Url of the image to convert
+ * @param gen_image If true, generate the image at the end of getAverages
  */
-function convertToLocal(image_url){
+function convertToLocal(image_url, gen_image){
     $.getImageData({
         url: image_url,
         server: 'http://maxnov.com/getimagedata/getImageData.php',
         //server: 'http://127.0.0.1:8800',
-        extra: null,
+        extra: gen_image,
         success: getAverages,
         error: function(xhr, text_status){
             console.log("Failed to convert: "+text_status);
@@ -216,9 +219,9 @@ function convertToLocal(image_url){
  * analyzes average colors and calls averageColors function to compute average colors
  * local storage with some key/value items
  * @param image The local image to use in a canvas
- * @param extra Not used but part of the callback
+ * @param gen_image If true, generate the image at the end of the function
  */
-function getAverages(image, extra){
+function getAverages(image, gen_image){
     // Create an invisible canvas to manipulate the image
     var can = document.createElement('canvas');
     var ctx = can.getContext('2d');
@@ -237,5 +240,8 @@ function getAverages(image, extra){
 
     // Save average colors to local storage and redirect to /mosaic
     localStorage.setItem("chosenPictureAverages", JSON.stringify(averageColors));
-    iterate_canvas(otherPictures, SUBIMAGE_DIM);
+
+    if(gen_image) {
+        iterate_canvas(otherPictures, SUBIMAGE_DIM);
+    }
 }

@@ -41,7 +41,7 @@ $(document).ready(function(){
         // Get url of chosen image
         var url = $(this).children("img").attr("src");
         localStorage.setItem("chosenUrl", url);
-        getCanvasFromImage(url);
+        window.location.href = "/mosaic";
         return false
     });
 
@@ -106,55 +106,6 @@ function addNextPicture(next_url){
         }
     });
 }
-
-/**
- * make a 'local' canvas out of the image using an api from maxnov.com or localhost
- * using this api we can create a temp canvas and manipulate aspects of the image
- * @param image_url Url of the image to convert
- */
-function getCanvasFromImage(image_url){
-    $.getImageData({
-        url: image_url,
-        server: 'http://maxnov.com/getimagedata/getImageData.php',
-        //server: 'http://127.0.0.1:8800',
-        extra: null,
-        success: analyzeImage,
-        error: function(xhr, text_status){
-            console.log("Mistakes were made: "+text_status);
-        }
-    });
-}
-
-/**
- * analyzeImage gets necessary data we need to analyze the image
- * analyzes average colors and calls averageColors function to compute average colors
- * local storage with some key/value items
- * @param image The local image to use in a canvas
- * @param extra Not used but part of the callback
- */
-function analyzeImage(image, extra){
-    // Create an invisible canvas to manipulate the image
-    var can = document.createElement('canvas');
-    var ctx = can.getContext('2d');
-
-    $(can).attr('width', image.width);
-    $(can).attr('height', image.height);
-
-    // Add the image to the canvas and get the image data from the canvas
-    ctx.drawImage(image, 0, 0, image.width, image.height);
-
-    var image_data = ctx.getImageData(0,0,image.width, image.height);
-    var image_data_array = image_data.data;
-
-    // Get the average colors of the image
-    var averageColors = getAvgColors(image_data_array, image.width, image.height, SUBIMAGE_DIM, SUBIMAGE_DIM);
-
-    // Save average colors to local storage and redirect to /mosaic
-    localStorage.setItem("chosenPictureAverages", JSON.stringify(averageColors));
-    window.location.href = "/mosaic";
-
-}
-
 
 //loading icon stuff
 var opts = {
