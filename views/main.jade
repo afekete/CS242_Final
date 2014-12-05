@@ -20,19 +20,19 @@ body
       .site-wrapper-inner
          .cover-container
             .masthead.clearfix
-            .inner
-               h3.masthead-brand Project
-               ul.nav.masthead-nav
-                  li
-                     a(href='/') Home
-                  li.active
-                     a(href='/main') Main
-                  li
-                     a(href='/user') User
-                  li
-                     a(href='/signin') Sign In
-                  li
-                     a(href='/location') Locations
+               .inner
+                  h3.masthead-brand Project
+                  ul.nav.masthead-nav
+                     li
+                        a(href='/') Home
+                     li.active
+                        a(href='/main') Main
+                     li
+                        a(href='/user') User
+                     li
+                        a(href='/location') Locations
+                     li
+                        a(href='/signin') Sign In
             .page-header
                form(role='form', id='tag_input')
                   .form-group
@@ -41,16 +41,13 @@ body
                   button.btn.btn-default(type='submit') Submit
                   button.btn.btn-default#load(type='button') Get mosaic
 
-            .pattern#pattern
-               ul.g
+         .pattern#pattern
+            ul.g
                   //
                      - for (var x = 0; x < 20; x++)
                         li
                            a(href='#')
                               img(src='http://bradfrost.github.com/this-is-responsive/patterns/images/fpo_square.png', alt='Product Name')
-            .mastfoot
-               .inner
-                  a(href='/contact') Contact
 
    //
       Bootstrap core JavaScript
