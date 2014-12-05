@@ -9,9 +9,10 @@ var bodyParser = require('body-parser'); //Node.js body parsing middleware.
 var index = require('./routes/index');
 var db = require('./routes/database');
 var main = require('./routes/main');
-var contact = require('./routes/contact');
+var contact = require('./routes/contact')
 var mosaic = require('./routes/mosaic');
 var user = require('./routes/user');
+var signin = require('./routes/signin');
 
 // Create the express web app
 var app = express();
@@ -30,7 +31,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
 
-app.use('/', [index, main, contact, mosaic, user, db]);
+app.use('/', [index, main, contact, mosaic, user ,signin, db]);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

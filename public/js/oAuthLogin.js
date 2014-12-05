@@ -29,7 +29,8 @@ $(document).ready(function(){
         }
         console.log($(this).data("tag"));
         var url = $(this).children("img").attr("src");
-        getCanvasFromImage(url, 'chosen');
+        localStorage.setItem("chosenUrl", url)
+        window.location.href = "/mosaic";
         return false
     })
 
@@ -80,61 +81,11 @@ function username_pics(user_id){
                     '<li><a data-tag = "' + picture.tags[0] + '" href="/mosaic"><img src="' + picture.images.standard_resolution.url + '"></a></li>'
 
                 )
-               // console.log($('#img').data('tag'))
-                if(index <= 0){
-                    getCanvasFromImage(picture.images.standard_resolution.url, 'other')
-                }
             })
         }
 
     });
 }
-
-//making a 'local' canvas from the image that is clicked
-//uses maxnov.com for this part as they have a useful js api for it
-//calls analyzeImage
-function getCanvasFromImage(image_url, type) {
-    $.getImageData({
-        url: image_url,
-        server: 'http://maxnov.com/getimagedata/getImageData.php',
-        extra: type,
-        success: analyzeImage,
-        error: function (xhr, text_status) {
-            console.log("Mistakes were made: " + text_status);
-        }
-    });
-}
-
-//analyzing image by getting more information from canvas
-//local storage of some elements and key value pairs
-function analyzeImage(image, type){
-    var can = document.createElement('canvas');
-    var ctx = can.getContext('2d');
-
-    $(can).attr('width', image.width);
-    $(can).attr('height', image.height);
-
-    ctx.drawImage(image, 0, 0, image.width, image.height)
-
-    var image_data = ctx.getImageData(0,0,image.width, image.height);
-    var image_data_array = image_data.data;
-
-    var averageColors = []
-    if(type == 'chosen') {
-        averageColors = getAvgColors(image_data_array, image.width, image.height, SUBIMAGE_DIM, SUBIMAGE_DIM);
-        var red = averageColors[0][0];
-        var green = averageColors[0][1];
-        var blue = averageColors[0][2];
-        $('#averageColorViewer').css("background-color", "rgb("+red+","+green+","+blue+")")
-
-        localStorage.setItem("chosenPictureAverages", JSON.stringify(averageColors))
-        window.location.href = "/mosaic";
-    }
-    else {
-        console.log("Type of picture not set")
-    }
-}
-
 
 //loading icon stuff
 //used for when waiting for images to load (pagination issues) or connectivity to api issues
