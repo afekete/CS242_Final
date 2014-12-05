@@ -1,4 +1,4 @@
-// Uses https://github.com/ubilabs/kd-tree-javascript
+// Uses https://github.com/ubilabs/kd-tree-javascript and http://adambom.github.io/parallel.js/
 
 var IMAGE_DIM = 640; // Dimension of the full image
 var SUBIMAGE_DIM = 20; // Dimension of the sub images
@@ -11,7 +11,7 @@ var IMAGE_CT_DIM = IMAGE_DIM/SUBIMAGE_DIM; // Dimension of the mosaic (how many 
  */
 function iterate_canvas(possiblePictures, subimage_dimension) {
     SUBIMAGE_DIM = subimage_dimension;
-    IMAGE_CT_DIM = IMAGE_DIM/SUBIMAGE_DIM;
+    IMAGE_CT_DIM = IMAGE_DIM / SUBIMAGE_DIM;
 
     // Create a kd tree with the possible pictures
     var tree = new kdTree(possiblePictures, distance, ["r", "g", "b"]);
@@ -20,36 +20,48 @@ function iterate_canvas(possiblePictures, subimage_dimension) {
     var chosenColors = JSON.parse(localStorage.getItem("chosenPictureAverages"));
 
     // Calculate the scaling factor
-    var scale = SUBIMAGE_DIM/IMAGE_DIM; // new dimension / original dimension
+    var scale = SUBIMAGE_DIM / IMAGE_DIM; // new dimension / original dimension
+
+    // Store all the color objects to an array to be accessed in parallel
+    var colorObjs = [];
 
     for (var x = 0; x < IMAGE_CT_DIM; x++) {
         for (var y = 0; y < IMAGE_CT_DIM; y++) {
-            //progressJs().increase()
 
             // Get the current canvas
             var currCanvas = document.getElementById("main_canvas_" + x + "_" + y);
 
             // Get the average colors for the current subarray, then create an object of those colors
-            var currColors = chosenColors[x+(y*IMAGE_CT_DIM)];
+            var currColors = chosenColors[x + (y * IMAGE_CT_DIM)];
             var colorObj = {r: currColors[0], g: currColors[1], b: currColors[2]};
 
-            // Find the nearest neighbor to the average colors
-            var pic = tree.nearest(colorObj, 1);
-            pic = pic[0][0];
-
-            var ctx = currCanvas.getContext("2d");
-
-            // Scale the chosen pic through some temp canvas tricks and draw it
-            var tempCanvas = document.createElement('canvas');
-            var tempCtx = tempCanvas.getContext('2d');
-            $(tempCanvas).attr('width', IMAGE_DIM);
-            $(tempCanvas).attr('height', IMAGE_DIM);
-            tempCtx.putImageData(pic.data, 0, 0);
-            ctx.clearRect(0, 0, tempCanvas.width*scale, tempCanvas.height*scale);
-            ctx.drawImage(tempCanvas, 0, 0, tempCanvas.width*scale, tempCanvas.height*scale);
+            colorObjs.push(colorObj);
 
         }
     }
+
+    // Map all the color objects, then add them to the mosaic grid
+    async.map(colorObjs, tree.nearest, function(err, results) {
+        for (x = 0; x < IMAGE_CT_DIM; x++) {
+            for (y = 0; y < IMAGE_CT_DIM; y++) {
+                // Get the current canvas
+                currCanvas = document.getElementById("main_canvas_" + x + "_" + y);
+                var pic = results[y + (x * IMAGE_CT_DIM)];
+                pic = pic[0][0];
+
+                var ctx = currCanvas.getContext("2d");
+
+                // Scale the chosen pic through some temp canvas tricks and draw it
+                var tempCanvas = document.createElement('canvas');
+                var tempCtx = tempCanvas.getContext('2d');
+                $(tempCanvas).attr('width', IMAGE_DIM);
+                $(tempCanvas).attr('height', IMAGE_DIM);
+                tempCtx.putImageData(pic.data, 0, 0);
+                ctx.clearRect(0, 0, tempCanvas.width * scale, tempCanvas.height * scale);
+                ctx.drawImage(tempCanvas, 0, 0, tempCanvas.width * scale, tempCanvas.height * scale);
+            }
+        }
+    })
 }
 
 /**

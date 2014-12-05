@@ -10,6 +10,8 @@ var IMAGE_DIM = 640; // Dimension of the full image
 var SUBIMAGE_DIM = 20; // Dimension of the sub images
 var IMAGE_CT_DIM = IMAGE_DIM/SUBIMAGE_DIM; // Dimension of the mosaic (how many images in one dimension)
 
+var pages_loaded = 0;
+
 //loading icon options
 var opts = {
     lines: 13, // The number of lines to draw
@@ -66,6 +68,7 @@ $(document).ready(function(){
                 $('#canvases').append('<canvas id="main_canvas_' + x + '_' + y + '" width=' + SUBIMAGE_DIM + ' height=' + SUBIMAGE_DIM + '\>')
             }
         }
+        spinner.spin(target);
         convertToLocal(localStorage.getItem("chosenUrl"), true);
     });
 
@@ -78,6 +81,7 @@ $(document).ready(function(){
                 $('#canvases').append('<canvas id="main_canvas_' + x + '_' + y + '" width=' + SUBIMAGE_DIM + ' height=' + SUBIMAGE_DIM + '\>')
             }
         }
+        spinner.spin(target)
         convertToLocal(localStorage.getItem("chosenUrl"), true);
     })
 });
@@ -103,6 +107,8 @@ function getAndAddPictures(tag, count) {
             data.data.forEach(function (picture) {
                 getCanvasFromImage(picture.images.standard_resolution.url, 'other')
             });
+            pages_loaded += 1;
+
             // Save the next url for pagination
             global_next_url = data.pagination.next_url;
             // Load the next page of pictures
@@ -120,15 +126,14 @@ function getAndAddPictures(tag, count) {
 function getCanvasFromImage(image_url, type){
     $.getImageData({
         url: image_url,
-        //server: 'http://maxnov.com/getimagedata/getImageData.php',
-        server: 'http://127.0.0.1:8800',
+        server: 'http://maxnov.com/getimagedata/getImageData.php',
+        //server: 'http://127.0.0.1:8800',
         extra: type,
         success: analyzeImage,
         error: function(xhr, text_status){
             console.log("Mistakes were made: "+text_status);
             if(!picture_generated) {
                 spinner.stop();
-                //progressJs().start()
                 iterate_canvas(otherPictures, SUBIMAGE_DIM); // Defined in canvas.js
                 picture_generated = true
             }
@@ -166,7 +171,6 @@ function analyzeImage(image, type){
     console.log(type); // Tracks how many pictures are loaded
     if(type == "last") {
         spinner.stop();
-        //progressJs().start()
         iterate_canvas(otherPictures, SUBIMAGE_DIM); // Defined in canvas.js, creates the mosaic
     }
 
@@ -189,8 +193,13 @@ function addNextPicture(next_url){
                     getCanvasFromImage(picture.images.standard_resolution.url, 'other')
                 }
             });
+            pages_loaded += 1
+
             // Save the next pagination url
             global_next_url = data.pagination.next_url
+            if(pages_loaded == 2) {
+                addNextPicture(global_next_url);
+            }
         }
     });
 }
@@ -242,6 +251,7 @@ function getAverages(image, gen_image){
     localStorage.setItem("chosenPictureAverages", JSON.stringify(averageColors));
 
     if(gen_image) {
+        spinner.stop();
         iterate_canvas(otherPictures, SUBIMAGE_DIM);
     }
 }
