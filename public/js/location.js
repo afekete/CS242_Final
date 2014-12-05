@@ -11,7 +11,7 @@ $(document).ready(function(){
     localStorage.removeItem('chosenTag')
     localStorage.removeItem('mosaicId')
 
-    //taking user input as username
+    //taking location input here
     $( "#location_input" ).submit(function( event ) {
         event.preventDefault();
         var given_location = $("#location_input .form-group .form-control" ).val()
@@ -46,28 +46,28 @@ $(document).ready(function(){
 });
 
 var geocoder;
-//takes in userinput (an instagram username) and makes a call to the api to get the actual userid for the username
+//takes in a given location and uses google maps api to get the lat and long coordinates and then connects to the instagram api to get
 function search_for_location(given_location){
-    /*geocoder = new google.maps.Geocoder();
+    var long;
+    var lat;
+    geocoder = new google.maps.Geocoder();
     console.log(geocoder);
     geocoder.geocode( { 'address': location}, function(results, status)
     {
         if(status == google.maps.GeocoderStatus.OK)
         {
-            var latitude = results[0].geometry.location.latitude
-            var longitude = results[0].geometry.location.longitude
-            console.log(latitude)
-            console.log(longitude)
+            lat = results[0].geometry.location.latitude
+            long = results[0].geometry.location.longitude
 
         }
         else
         {
-          var latitude =  0
-          var longitude = 0
+         lat = 0;
+         long = 0;
         }
     });
-    */
-    var long;
+
+   /* var long;
     var lat;
     console.log(given_location);
     if (given_location == "paris"){
@@ -78,7 +78,7 @@ function search_for_location(given_location){
     {
         long = 41.8369
         lat = 87.6847
-    }
+    }*/
     var clientId = "93cfcf70cba44318a06a07ea8e3b6268";
     var access_token = "394307472.93cfcf7.cc10311c67174728a0baef44810d5c0c";
     var location_endpoint = "https://api.instagram.com/v1/locations/search?lat=" + lat + "&lng=" + long + "&access_token=" + access_token;
@@ -98,9 +98,8 @@ function search_for_location(given_location){
     });
 }
 
-//taken a given user id - lists all the recent media for that user
-//users access token reserved to a single user
-//cannot get all media - only recent media (restriction by Instagram api)
+//taken a given location - lists all the recent media for that user
+//geolocation using location id and access token to instagram api
 function location_pics(location_id){
     var clientId = "93cfcf70cba44318a06a07ea8e3b6268";
     var access_token = "394307472.93cfcf7.cc10311c67174728a0baef44810d5c0c";
