@@ -29,20 +29,23 @@ body
                                 a(href='/location') Locations
                             li
                                 a#signout(href="javascript:localStorage.removeItem('username');javascript:window.location.href = '/main'")
-                       table.table
-                           thead
-                              tr
-                                 th UserName
-                                 th Email
-                           tbody
-                              tr
-                                 td#name
-                                 td#email
-                       table#userMosaics.table Table of Mosaics made
-                           thead
-                              tr
-                                 th Mosaic Name
-                                 th Mosaic Tag
+                    table.table
+                        thead
+                           tr
+                              th UserName
+                              th Email
+                        tbody
+                           tr
+                              td#name
+                              td#email
+                    button.btn.btn-default.edit#Delete(type='button') Delete Profile
+                    p
+                    table#userMosaics.table Table of Mosaics made
+                        thead
+                           tr
+                              th Mosaic Name
+                              th Mosaic Tag
+
 
 script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
    script(src='/js/bootstrap.min.js')

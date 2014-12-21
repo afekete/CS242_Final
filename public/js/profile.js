@@ -23,4 +23,12 @@ $(document).ready(function(){
         }
 
     })
+    $("#Delete").click(function(){
+        //$.del("db/saved/"+x, function (data) {
+        //    console.log("")
+        //})
+        javascript:localStorage.removeItem('username')
+        javascript:window.location.href = '/main'
+
+    })
 })
