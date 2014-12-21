@@ -35,18 +35,19 @@ function iterate_canvas(possiblePictures, subimage_dimension) {
             var currColors = chosenColors[x + (y * IMAGE_CT_DIM)];
             var colorObj = {r: currColors[0], g: currColors[1], b: currColors[2]};
 
+            // Push all the color objects to the array
             colorObjs.push(colorObj);
 
         }
     }
 
-    // Map all the color objects, then add them to the mosaic grid
+    // Map all the color objects asynchronously, then add them to the mosaic grid
     async.map(colorObjs, tree.nearest, function(err, results) {
         for (x = 0; x < IMAGE_CT_DIM; x++) {
             for (y = 0; y < IMAGE_CT_DIM; y++) {
                 // Get the current canvas
                 currCanvas = document.getElementById("main_canvas_" + x + "_" + y);
-                var pic = results[y + (x * IMAGE_CT_DIM)];
+                var pic = results[y + (x * IMAGE_CT_DIM)]; // Honestly not sure why it needs to be reversed from above
                 pic = pic[0][0];
 
                 var ctx = currCanvas.getContext("2d");

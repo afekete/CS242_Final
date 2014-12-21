@@ -38,7 +38,9 @@ $(document).ready(function(){
 
         // Get url of chosen image
         var url = $(this).children("img").attr("src");
+        // Save it into local storage
         localStorage.setItem("chosenUrl", url);
+        // Then redirect to the mosaic page
         window.location.href = "/mosaic";
         return false
     });
